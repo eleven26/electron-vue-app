@@ -1,3 +1,4 @@
+
 <template>
   <el-container>
     <el-aside style="width: 200px">
@@ -34,7 +35,9 @@
           </el-input>
         </el-form-item>
 
-        <el-card>
+        <modules ref="modules" :foundation_path="foundation_path" :modules="modules"></modules>
+
+        <el-card shadow="never">
           <div style="color: red">
             <p>todo</p>
             <p>0. 样式优化</p>
@@ -60,7 +63,7 @@
       </span>
       </el-dialog>
 
-      <el-card v-show="showMenus1">
+      <el-card v-show="showMenus1" shadow="never">
         <el-form :inline="true">
           <p>执行此操作会把 Foundation 以及所有子模块切换到选择的那个分支</p>
           <p>如: 选择 "qa/qa1", 会把所有 git repo 切换到 "qa/qa1" 分支</p>
@@ -77,11 +80,11 @@
         </el-form>
       </el-card>
 
-      <el-card v-show="showMenus2">
+      <el-card v-show="showMenus2" shadow="never">
         <el-button @click="pull">那就拉吧</el-button>
       </el-card>
 
-      <el-card v-show="showMenus3">
+      <el-card v-show="showMenus3" shadow="never">
         <template slot="title">切换 env</template>
         <el-form>
           <el-form-item label="切换 env">
@@ -96,9 +99,7 @@
         </el-form>
       </el-card>
 
-      <el-card v-show="showMenus4">
-        <el-button>运行环境检测</el-button>
-      </el-card>
+      <environment v-show="showMenus4"></environment>
     </el-main>
   </el-container>
 </template>
@@ -106,57 +107,13 @@
 <script>
   /* eslint-disable handle-callback-err */
   import { Notification } from 'element-ui'
-  const exec = require('child_process').exec
-
-  /**
-   * 执行命令
-   */
-  function execute (command, callback) {
-    checkPath().then(() => {
-      exec(command, (error, stdout, stderr) => {
-        // todo handle error
-        if (error) {
-          Notification.error({
-            message: error
-          })
-          console.log(error)
-        }
-        if (stderr) {
-          Notification.error({
-            message: error
-          })
-          console.log(stderr)
-        }
-
-        callback(stdout)
-      })
-    })
-  }
-
-  /**
-   * 检查 Foundation 是否正确
-   *
-   * @returns {Promise<any>}
-   */
-  function checkPath () {
-    return new Promise(resolve => {
-      let path = localStorage.getItem('foundation_path')
-
-      exec(`cd ${path} && git config --get remote.origin.url`, (error, stdout, stderr) => {
-        if (!stdout || stdout.indexOf('Foundation.git') === -1) {
-          Notification.error({
-            message: 'Foundation 路径配置不正确'
-          })
-        } else {
-          resolve()
-        }
-      })
-    })
-  }
+  import { execute } from '../commands/command'
+  import Modules from './Modules'
+  import Environment from './Environment'
 
   export default {
     name: 'Index',
-
+    components: {Environment, Modules},
     data () {
       let path = localStorage.getItem('foundation_path')
 
@@ -212,7 +169,7 @@
 
     methods: {
       showMenu (index) {
-        for (let i = 0; i < this.menusCount; i++) {
+        for (let i = 0; i <= this.menusCount; i++) {
           this[`showMenus` + i] = i === index
         }
       },
@@ -237,6 +194,7 @@
           Notification.success({
             message: `成功切换到分支 ${this.checkout_branch}`
           })
+          this.reloadCurrentBranch()
         })
       },
       pull () {
@@ -258,6 +216,9 @@
             message: `成功切换到 ${this.env} !`
           })
         })
+      },
+      reloadCurrentBranch () {
+        this.$refs.modules.getModulesCurrentBranch()
       }
     },
 
