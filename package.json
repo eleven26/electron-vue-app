@@ -1,5 +1,5 @@
 {
-  "name": "electron-vue-app",
+  "name": "git-helper",
   "version": "0.0.1",
   "author": "ruby <916809498@qq.com>",
   "description": "An electron-vue project",
@@ -19,7 +19,7 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "electron-vue-app",
+    "productName": "git-helper",
     "appId": "com.baiguiren.electron",
     "directories": {
       "output": "build"

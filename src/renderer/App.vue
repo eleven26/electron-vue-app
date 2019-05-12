@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'electron-vue-app'
+    name: 'git-helper'
   }
 </script>
 
