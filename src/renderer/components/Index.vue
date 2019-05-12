@@ -101,6 +101,8 @@
 
       <environment v-show="showMenus4"></environment>
     </el-main>
+
+    <loading v-show="showLoading"/>
   </el-container>
 </template>
 
@@ -110,10 +112,11 @@
   import { execute } from '../commands/command'
   import Modules from './Modules'
   import Environment from './Environment'
+  import Loading from './Loading'
 
   export default {
     name: 'Index',
-    components: {Environment, Modules},
+    components: {Loading, Environment, Modules},
     data () {
       let path = localStorage.getItem('foundation_path')
 
@@ -157,6 +160,8 @@
         showMenus2: false,
         showMenus3: false,
         showMenus4: false,
+
+        showLoading: false,
 
         env: ''
       }
@@ -215,6 +220,7 @@
           Notification.success({
             message: `成功切换到 ${this.env} !`
           })
+          this.showLoading = false
         })
       },
       reloadCurrentBranch () {
