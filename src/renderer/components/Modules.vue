@@ -2,12 +2,12 @@
   <el-row style="margin-top: 10px">
     <el-col :span="12">
       <el-table class="modules-table" :data="tables">
-        <el-table-column prop="module" label="模块" sortable align="center" width="200px"></el-table-column>
-        <el-table-column prop="current_branch" label="当前分支" align="center" width="200px"></el-table-column>
+        <el-table-column prop="module" label="模块" sortable align="center"></el-table-column>
+        <el-table-column prop="current_branch" label="当前分支" align="center"></el-table-column>
       </el-table>
     </el-col>
 
-    <el-col :span="11" style="margin-top: 39px">
+    <el-col :span="11" :offset="1" style="margin-top: 39px">
       <el-card shadow="never">
         <div>
           <p>1. 执行此操作会把 <code>Foundation</code> 以及所有其他 <code>Modules</code> 下面的模块切换到选择的那个分支</p>
@@ -127,7 +127,7 @@
   .modules-table tr td, .modules-table tr th {
     padding: 2px 0;
   }
-  .modules-table::before, .el-table--border::after, .el-table--group::after {
-    height: unset;
+  .el-table::before{
+    height: 0 !important;
   }
 </style>
