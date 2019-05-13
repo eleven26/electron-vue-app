@@ -9,7 +9,7 @@
                      :value="branch"></el-option>
         </el-select>
       </el-form-item>
-      <el-button type="primary" @click="checkout">确定</el-button>
+      <el-button :loading="loading" type="primary" @click="checkout">确定</el-button>
     </el-form>
 
     <modules ref="modules" :foundation_path="foundation_path"></modules>
@@ -37,7 +37,8 @@
           'release',
           'master',
           'dev/v1.1.4'
-        ]
+        ],
+        loading: false
       }
     },
 
@@ -53,12 +54,14 @@
         }
         this.$refs.modules.clearTable()
         this.$refs.modules.loading()
+        this.loading = true
         execute(`./bin/checkout.php ${this.checkout_branch}`, output => {
           Notification.success({
             message: `成功切换到分支 ${this.checkout_branch}`,
             position: 'bottom-right'
           })
           this.$refs.modules.getModulesCurrentBranch()
+          this.loading = false
         })
       }
     }

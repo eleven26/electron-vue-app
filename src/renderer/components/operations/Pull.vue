@@ -1,6 +1,6 @@
 <template>
   <el-card shadow="never">
-    <el-button @click="pull">那就拉吧</el-button>
+    <el-button :loading="loading" @click="pull">那就拉吧</el-button>
   </el-card>
 </template>
 
@@ -11,12 +11,21 @@
   export default {
     name: 'Pull',
 
+    data () {
+      return {
+        loading: false
+      }
+    },
+
     methods: {
       pull () {
+        this.loading = true
         execute(`./bin/pull.php`, output => {
           Notification.success({
-            message: '拉取代码成功'
+            message: '拉取代码成功',
+            position: 'bottom-right'
           })
+          this.loading = false
         })
       }
     }
