@@ -13,15 +13,19 @@ function execute (command, callback) {
     exec(`export foundation_path=${path} && ${command}`, (error, stdout, stderr) => {
       if (error) {
         console.error(error)
-        Notification.error({
-          message: error
-        })
+        if (!stdout) {
+          Notification.error({
+            message: error
+          })
+        }
       }
       if (stderr) {
         console.error(stderr)
-        Notification.error({
-          message: error
-        })
+        if (!stdout) {
+          Notification.error({
+            message: error
+          })
+        }
       }
 
       if (stdout) {

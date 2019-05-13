@@ -51,9 +51,12 @@
           })
           return
         }
+        this.$refs.modules.clearTable()
+        this.$refs.modules.loading()
         execute(`./bin/checkout.php ${this.checkout_branch}`, output => {
           Notification.success({
-            message: `成功切换到分支 ${this.checkout_branch}`
+            message: `成功切换到分支 ${this.checkout_branch}`,
+            position: 'bottom-right'
           })
           this.$refs.modules.getModulesCurrentBranch()
         })

@@ -1,7 +1,7 @@
 <template>
   <el-row style="margin-top: 10px">
     <el-col :span="12">
-      <el-table class="module-table" :data="tables">
+      <el-table class="modules-table" :data="tables">
         <el-table-column prop="module" label="模块" sortable align="center" width="200px"></el-table-column>
         <el-table-column prop="current_branch" label="当前分支" align="center" width="200px"></el-table-column>
       </el-table>
@@ -48,7 +48,8 @@
           'Social',
           'Stock',
           'User'
-        ]
+        ],
+        loadingObj: null
       }
     },
 
@@ -67,17 +68,39 @@
         this.paths = paths
       },
       getModulesCurrentBranch () {
+        const promises = []
         this.resolvePaths()
         this.tables = []
 
         this.paths.forEach(path => {
-          currentBranch(path).then(branch => {
-            this.tables.push({
-              module: path.split('/').pop(),
-              current_branch: branch
+          let promise = new Promise(resolve => {
+            currentBranch(path).then(branch => {
+              this.tables.push({
+                module: path.split('/').pop(),
+                current_branch: branch
+              })
+              resolve()
             })
           })
+          promises.push(promise)
         })
+
+        this.loading()
+        Promise.all(promises).then(() => {
+          this.closeLoading()
+        })
+      },
+      clearTable () {
+        this.tables = []
+      },
+      loading () {
+        if (this.loadingObj) this.loadingObj.close()
+        this.loadingObj = this.$loading({
+          target: document.querySelector('.modules-table')
+        })
+      },
+      closeLoading () {
+        this.loadingObj.close()
       }
     },
 
@@ -101,7 +124,10 @@
   }
 </style>
 <style type="scss">
-  .module-table tr td, .module-table tr th {
+  .modules-table tr td, .modules-table tr th {
     padding: 2px 0;
+  }
+  .modules-table::before, .el-table--border::after, .el-table--group::after {
+    height: unset;
   }
 </style>
