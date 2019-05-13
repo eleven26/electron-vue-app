@@ -1,18 +1,15 @@
 <template>
-  <el-card shadow="never">
-    <template slot="title">切换 env</template>
-    <el-form>
-      <el-form-item label="切换 env">
-        <el-radio-group v-model="env">
-          <el-radio-button label="qa1"></el-radio-button>
-          <el-radio-button label="qa2"></el-radio-button>
-          <el-radio-button label="qa3"></el-radio-button>
-          <el-radio-button label="demo"></el-radio-button>
-        </el-radio-group>
-        <el-button type="primary" @click="switchEnv">确定</el-button>
-      </el-form-item>
-    </el-form>
-  </el-card>
+  <el-form>
+    <el-form-item label="切换 env">
+      <el-radio-group v-model="env">
+        <el-radio-button label="qa1"></el-radio-button>
+        <el-radio-button label="qa2"></el-radio-button>
+        <el-radio-button label="qa3"></el-radio-button>
+        <el-radio-button label="demo"></el-radio-button>
+      </el-radio-group>
+      <el-button :loading="loading" type="primary" @click="switchEnv">确定</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
@@ -30,7 +27,8 @@
           'qa2',
           'qa3',
           'demo'
-        ]
+        ],
+        loading: false
       }
     },
 
@@ -42,11 +40,13 @@
           })
           return
         }
-        execute(`./bin/switch_env.php ${this.env}`, output => {
+        this.loading = true
+        execute(`./bin/switch_env.php ${this.env}`, () => {
           Notification.success({
-            message: `成功切换到 ${this.env} !`
+            message: `成功切换到 ${this.env} !`,
+            position: 'bottom-right'
           })
-          this.showLoading = false
+          this.loading = false
         })
       }
     }
