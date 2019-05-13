@@ -2,7 +2,7 @@
   <el-aside style="width: 160px">
     <el-row>
       <el-col :span="24">
-        <h5>可选操作</h5>
+        <h5 style="font-size: 16px">可选操作</h5>
         <el-menu class="el-menu-vertical-demo">
           <el-menu-item v-for="(menu, index) in menus" :key="index" @click="showMenu(menu.name)">
             <span slot="title">{{ menu.title }}</span>

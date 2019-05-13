@@ -1,10 +1,7 @@
 <template>
-  <el-card shadow="never">
+  <div>
     <el-form :inline="true">
-      <p>执行此操作会把 Foundation 以及所有子模块切换到选择的那个分支</p>
-      <p>如: 选择 "qa/qa1", 会把所有 git repo 切换到 "qa/qa1" 分支</p>
-      <p>如果有未提交的代码, 会先执行 "git stash", 在切换成功之后再 "git stash pop" 还原.</p>
-      <el-form-item label="切换到">
+      <el-form-item label="全部模块切换到" label-width="120px">
         <el-select v-model="checkout_branch">
           <el-option v-for="branch in branches"
                      :key="branch"
@@ -16,7 +13,7 @@
     </el-form>
 
     <modules ref="modules" :foundation_path="foundation_path"></modules>
-  </el-card>
+  </div>
 </template>
 
 <script>

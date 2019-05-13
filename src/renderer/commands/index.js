@@ -86,7 +86,7 @@ function phpVersion (callback) {
 /**
  * 获取 swoole 版本(影响系统命令执行方式)
  *
- * @param callback
+ * @param {function} callback
  */
 function swooleVersion (callback) {
   execute(`php -r "echo phpversion('swoole');"`, output => {
@@ -99,6 +99,11 @@ function swooleVersion (callback) {
   })
 }
 
+/**
+ * 获取 Git 版本
+ *
+ * @param {function} callback
+ */
 function gitVersion (callback) {
   execute(`git version`, output => {
     let res = output.match(/(\d+\.\d+\.\d+)/)
