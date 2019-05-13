@@ -26,9 +26,9 @@ export default new Router({
           component: require('@/components/operations/SwitchEnv').default
         },
         {
-          name: 'detect-environment',
-          path: '/detect-environment',
-          component: require('@/components/operations/DetectEnvironment').default
+          name: 'system-info',
+          path: '/system-info',
+          component: require('@/components/operations/SystemInfo').default
         },
         {
           name: 'todo',

@@ -22,7 +22,7 @@
         menus: [
           {
             title: '系统信息',
-            name: 'detect-environment'
+            name: 'system-info'
           },
           {
             title: '切换到某一分支',

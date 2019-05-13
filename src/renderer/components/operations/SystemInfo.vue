@@ -9,7 +9,7 @@
   import * as commands from '../../commands'
 
   export default {
-    name: 'DetectEnvironment',
+    name: 'SystemInfo',
 
     data () {
       return {
