@@ -67,8 +67,42 @@ function currentBranch (path) {
   })
 }
 
+/**
+ * 获取 php 版本
+ *
+ * @param {function} callback
+ */
+function phpVersion (callback) {
+  execute(`php -v`, output => {
+    if (output.indexOf('PHP') === 0) {
+      callback(output.match(/PHP (\d+\.\d+\.\d+)/)[1])
+    } else {
+      let err = '未安装（或未配置环境变量）'
+      callback(err)
+    }
+  })
+}
+
+/**
+ * 获取 swoole 版本(影响系统命令执行方式)
+ *
+ * @param callback
+ */
+function swooleVersion (callback) {
+  execute(`php -r "echo phpversion('swoole');"`, output => {
+    if (Number.isInteger(Number(output[0]))) {
+      callback(output || '未安装')
+    } else {
+      let err = '未安装（或未配置环境变量）'
+      callback(err)
+    }
+  })
+}
+
 export {
   execute,
   checkPath,
-  currentBranch
+  currentBranch,
+  phpVersion,
+  swooleVersion
 }

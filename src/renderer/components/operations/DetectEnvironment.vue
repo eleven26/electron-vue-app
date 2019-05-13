@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import { execute } from '../../commands/command'
+  import * as commands from '../../commands'
 
   export default {
     name: 'DetectEnvironment',
@@ -20,12 +20,12 @@
 
     methods: {
       phpVersion () {
-        execute(`php -v`, output => {
-          this.php_version = output.match(/PHP (\d+\.\d+\.\d+)/)[1]
+        commands.phpVersion(version => {
+          this.php_version = version
         })
       },
       swooleVersion () {
-        execute(`php -r "echo phpversion('swoole');"`, output => {
+        commands.swooleVersion(output => {
           this.swoole_version = output || '未安装'
         })
       }

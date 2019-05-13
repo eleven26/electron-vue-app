@@ -6,7 +6,7 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import { execute } from '../../commands/command'
+  import { execute } from '../../commands'
 
   export default {
     name: 'Pull',

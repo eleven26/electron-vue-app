@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import { currentBranch } from '../commands/command'
+  import { currentBranch } from '../commands'
 
   // 检测所有模块当前分支(前提 foundation 路径正确)
   export default {
