@@ -7,7 +7,7 @@
         <el-radio-button label="qa3"></el-radio-button>
         <el-radio-button label="demo"></el-radio-button>
       </el-radio-group>
-      <el-button :loading="loading" type="primary" @click="switchEnv">确定</el-button>
+      <el-button :loading="loading" type="primary" @click="switchEnv('local')">还原</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -20,34 +20,49 @@
     name: 'SwitchEnv',
 
     data () {
+      let env = localStorage.getItem('env')
+
       return {
-        env: '',
+        env: env,
         envs: [
           'qa1',
           'qa2',
           'qa3',
-          'demo'
+          'demo',
+          'local'
         ],
         loading: false
       }
     },
 
     methods: {
-      switchEnv () {
+      switchEnv (env) {
+        if (env) {
+          this.env = env
+          return
+        }
         if (this.envs.indexOf(this.env) === -1) {
-          Notification.success({
-            message: '请选择正确的环境'
+          Notification.error({
+            message: '请选择正确的环境',
+            position: 'bottom-right'
           })
           return
         }
         this.loading = true
         execute(`./bin/switch_env.php ${this.env}`, () => {
           Notification.success({
-            message: `成功切换到 ${this.env} !`,
+            message: this.env === 'local' ? '成功还原 env !' : `成功切换到 ${this.env} !`,
             position: 'bottom-right'
           })
           this.loading = false
         })
+      }
+    },
+
+    watch: {
+      env (env) {
+        localStorage.setItem('env', env)
+        this.switchEnv()
       }
     }
   }

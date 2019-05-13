@@ -8,6 +8,7 @@
       <p>4. 构建(mac/windows)</p>
       <p>5. 显示可运行的 artisan 命令，可以点击执行</p>
       <p>6. 添加 Modules 里面模块、分支名称跳转 gitlab 的功能</p>
+      <p>7. 内置 php, git, 不用额外安装依赖</p>
     </div>
   </el-card>
 </template>
