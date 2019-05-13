@@ -1,5 +1,5 @@
 <template>
-  <el-card v-show="showMenus3" shadow="never">
+  <el-card shadow="never">
     <template slot="title">切换 env</template>
     <el-form>
       <el-form-item label="切换 env">
@@ -21,12 +21,6 @@
 
   export default {
     name: 'SwitchEnv',
-
-    props: {
-      showMenus3: {
-        type: Boolean
-      }
-    },
 
     data () {
       return {

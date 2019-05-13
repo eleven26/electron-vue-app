@@ -1,5 +1,5 @@
 <template>
-  <el-card v-show="showMenus1" shadow="never">
+  <el-card shadow="never">
     <el-form :inline="true">
       <p>执行此操作会把 Foundation 以及所有子模块切换到选择的那个分支</p>
       <p>如: 选择 "qa/qa1", 会把所有 git repo 切换到 "qa/qa1" 分支</p>
@@ -23,12 +23,6 @@
 
   export default {
     name: 'SwitchBranch',
-
-    props: {
-      showMenus1: {
-        type: Boolean
-      }
-    },
 
     data () {
       return {

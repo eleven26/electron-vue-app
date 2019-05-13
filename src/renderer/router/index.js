@@ -8,7 +8,34 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: require('@/components/Index').default
+      component: require('@/components/Index').default,
+      children: [
+        {
+          name: 'switch-branch',
+          path: '/switch-branch',
+          component: require('@/components/operations/SwitchBranch').default
+        },
+        {
+          name: 'pull',
+          path: '/pull',
+          component: require('@/components/operations/Pull').default
+        },
+        {
+          name: 'switch-env',
+          path: '/switch-env',
+          component: require('@/components/operations/SwitchEnv').default
+        },
+        {
+          name: 'detect-environment',
+          path: '/detect-environment',
+          component: require('@/components/operations/DetectEnvironment').default
+        },
+        {
+          name: 'todo',
+          path: '/todo',
+          component: require('@/components/Todo').default
+        }
+      ]
     },
     {
       path: '*',

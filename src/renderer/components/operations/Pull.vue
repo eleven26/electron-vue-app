@@ -1,5 +1,5 @@
 <template>
-  <el-card v-show="showMenus2" shadow="never">
+  <el-card shadow="never">
     <el-button @click="pull">那就拉吧</el-button>
   </el-card>
 </template>
@@ -10,12 +10,6 @@
 
   export default {
     name: 'Pull',
-
-    props: {
-      showMenus2: {
-        type: Boolean
-      }
-    },
 
     methods: {
       pull () {

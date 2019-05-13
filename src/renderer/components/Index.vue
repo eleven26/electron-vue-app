@@ -4,18 +4,7 @@
 
     <el-main>
       <foundation-path></foundation-path>
-
-      <switch-branch :show-menus1="showMenus1" @reloadCurrentBranch="reloadCurrentBranch"></switch-branch>
-
-      <pull :show-menus2="showMenus2"></pull>
-
-      <detect-environment v-show="showMenus4"></detect-environment>
-
-      <switch-env :show-menus3="showMenus3"></switch-env>
-
-      <modules ref="modules" :foundation_path="foundation_path" :modules="modules"></modules>
-
-      <todo></todo>
+      <router-view></router-view>
     </el-main>
 
     <loading v-show="showLoading"/>
