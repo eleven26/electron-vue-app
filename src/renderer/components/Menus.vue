@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="24">
         <h5>可选操作</h5>
-        <el-menu default-active="1" class="el-menu-vertical-demo">
+        <el-menu class="el-menu-vertical-demo">
           <el-menu-item v-for="(menu, index) in menus" :key="index" @click="showMenu(menu.name)">
             <span slot="title">{{ menu.title }}</span>
           </el-menu-item>
@@ -21,6 +21,10 @@
       return {
         menus: [
           {
+            title: '系统信息',
+            name: 'detect-environment'
+          },
+          {
             title: '切换到某一分支',
             name: 'switch-branch'
           },
@@ -33,10 +37,6 @@
             name: 'switch-env'
           },
           {
-            title: '运行环境检测',
-            name: 'detect-environment'
-          },
-          {
             title: 'todo',
             name: 'todo'
           }
@@ -46,7 +46,6 @@
 
     methods: {
       showMenu (name) {
-        console.log(name)
         this.$router.push({ name })
       }
     }

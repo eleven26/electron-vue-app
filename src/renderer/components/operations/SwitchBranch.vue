@@ -14,18 +14,24 @@
       </el-form-item>
       <el-button type="primary" @click="checkout">确定</el-button>
     </el-form>
+
+    <modules ref="modules" :foundation_path="foundation_path"></modules>
   </el-card>
 </template>
 
 <script>
   import { Notification } from 'element-ui'
   import { execute } from '../../commands/command'
+  import Modules from '@/components/Modules'
 
   export default {
     name: 'SwitchBranch',
-
+    components: {Modules},
     data () {
+      let path = localStorage.getItem('foundation_path')
+
       return {
+        foundation_path: path,
         checkout_branch: '',
         branches: [
           'qa/qa1',
@@ -52,7 +58,7 @@
           Notification.success({
             message: `成功切换到分支 ${this.checkout_branch}`
           })
-          this.$emit('reloadCurrentBranch')
+          this.$refs.modules.getModulesCurrentBranch()
         })
       }
     }

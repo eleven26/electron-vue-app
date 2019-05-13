@@ -18,17 +18,25 @@
       foundation_path: {
         type: String,
         required: true
-      },
-      modules: {
-        type: Array,
-        required: true
       }
     },
 
     data () {
       return {
         paths: [],
-        tables: []
+        tables: [],
+        modules: [
+          'Admin',
+          'Finance',
+          'Core',
+          'Openapi',
+          'Order',
+          'Product',
+          'Shop',
+          'Social',
+          'Stock',
+          'User'
+        ]
       }
     },
 

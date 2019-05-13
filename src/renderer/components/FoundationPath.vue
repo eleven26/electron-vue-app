@@ -47,12 +47,6 @@
         this.dialogVisible = false
         this.foundation_path = this.new_foundation_path
       }
-    },
-
-    watch: {
-      foundation_path (val) {
-        localStorage.setItem('foundation_path', val)
-      }
     }
   }
 </script>
