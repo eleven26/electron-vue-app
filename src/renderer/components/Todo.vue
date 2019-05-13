@@ -6,6 +6,8 @@
       <p>2. 运行环境检测(所有命令)</p>
       <p>3. windows 兼容</p>
       <p>4. 构建(mac/windows)</p>
+      <p>5. 显示可运行的 artisan 命令，可以点击执行</p>
+      <p>6. 添加 Modules 里面模块、分支名称跳转 gitlab 的功能</p>
     </div>
   </el-card>
 </template>
