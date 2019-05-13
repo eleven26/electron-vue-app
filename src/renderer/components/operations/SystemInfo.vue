@@ -1,7 +1,8 @@
 <template>
   <div>
-    <p>PHP 版本: {{php_version}}</p>
-    <p>swoole 版本: {{swoole_version}}</p>
+    <p>PHP 版本: {{ php_version }}</p>
+    <p>swoole 版本: {{ swoole_version }}</p>
+    <p>Git 版本: {{ git_version }}</p>
   </div>
 </template>
 
@@ -14,7 +15,8 @@
     data () {
       return {
         php_version: this.phpVersion(),
-        swoole_version: this.swooleVersion()
+        swoole_version: this.swooleVersion(),
+        git_version: this.gitVersion()
       }
     },
 
@@ -26,7 +28,12 @@
       },
       swooleVersion () {
         commands.swooleVersion(output => {
-          this.swoole_version = output || '未安装'
+          this.swoole_version = output
+        })
+      },
+      gitVersion () {
+        commands.gitVersion(output => {
+          this.git_version = output
         })
       }
     }

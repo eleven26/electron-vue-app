@@ -99,10 +99,23 @@ function swooleVersion (callback) {
   })
 }
 
+function gitVersion (callback) {
+  execute(`git version`, output => {
+    let res = output.match(/(\d+\.\d+\.\d+)/)
+    if (res !== null) {
+      callback(res[1])
+    } else {
+      let err = '未安装（或未配置环境变量）'
+      callback(err)
+    }
+  })
+}
+
 export {
   execute,
   checkPath,
   currentBranch,
   phpVersion,
-  swooleVersion
+  swooleVersion,
+  gitVersion
 }
