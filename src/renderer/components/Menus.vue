@@ -39,6 +39,10 @@
           {
             title: 'todo',
             name: 'todo'
+          },
+          {
+            title: 'artisan',
+            name: 'artisan'
           }
         ]
       }

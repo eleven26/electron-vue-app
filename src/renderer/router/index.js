@@ -34,6 +34,11 @@ export default new Router({
           name: 'todo',
           path: '/todo',
           component: require('@/components/Todo').default
+        },
+        {
+          name: 'artisan',
+          path: '/artisan',
+          component: require('@/components/operations/Artisan').default
         }
       ]
     },
