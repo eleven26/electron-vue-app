@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'Environment',
+    name: 'DetectEnvironment',
 
     data () {
       return {
@@ -19,3 +19,4 @@
 <style scoped>
 
 </style>
+

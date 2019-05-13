@@ -1,6 +1,6 @@
 <template>
   <el-card shadow="never">
-    <el-table :data="tables">
+    <el-table class="module-table" :data="tables">
       <el-table-column prop="module" label="模块" sortable></el-table-column>
       <el-table-column prop="current_branch" label="当前分支"></el-table-column>
     </el-table>
@@ -72,4 +72,9 @@
 
 <style scoped>
 
+</style>
+<style type="scss">
+  .module-table tr td, .module-table tr th {
+    padding: 2px 0;
+  }
 </style>
