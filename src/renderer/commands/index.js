@@ -1,5 +1,6 @@
 /* eslint-disable no-path-concat */
 import { Notification } from 'element-ui'
+import {isWin} from '../utils'
 const exec = require('child_process').exec
 
 /**
@@ -9,8 +10,7 @@ const exec = require('child_process').exec
  * @returns {string}
  */
 function setEnvCommand (path) {
-  const isWin = /^win/.test(process.platform)
-  if (isWin) {
+  if (isWin()) {
     return `set foundation_path=${path}`
   } else {
     return `export foundation_path=${path}`
@@ -27,6 +27,7 @@ function setEnvCommand (path) {
 function execute (command, callback, checkFoundationPath = true) {
   let cb = path => {
     let prefix = setEnvCommand(path)
+    console.log(`${prefix} && ${command}`)
     exec(`${prefix} && ${command}`, (error, stdout, stderr) => {
       if (error) {
         console.error(error)
@@ -45,9 +46,7 @@ function execute (command, callback, checkFoundationPath = true) {
         }
       }
 
-      if (stdout) {
-        callback(stdout)
-      }
+      callback(stdout)
     })
   }
   if (checkFoundationPath) {
@@ -87,8 +86,8 @@ function checkPath () {
  */
 function currentBranch (path) {
   return new Promise(resolve => {
-    execute(`cd ${path} && git status -b -u no | awk 'NR==1{print $3;}'`, output => {
-      resolve(output)
+    execute(`cd ${path} && git status -b -u no`, output => {
+      resolve(output.split('\n').shift().split(' ').pop())
     })
   })
 }
