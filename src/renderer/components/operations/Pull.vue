@@ -1,7 +1,5 @@
 <template>
-  <el-card shadow="never">
-    <el-button :loading="loading" @click="pull">那就拉吧</el-button>
-  </el-card>
+  <el-button :loading="loading" @click="pull">Pull all</el-button>
 </template>
 
 <script>
