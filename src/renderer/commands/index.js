@@ -3,14 +3,31 @@ import { Notification } from 'element-ui'
 const exec = require('child_process').exec
 
 /**
+ * 设置环境变量的命令兼容处理
+ *
+ * @param path
+ * @returns {string}
+ */
+function setEnvCommand (path) {
+  const isWin = /^win/.test(process.platform)
+  if (isWin) {
+    return `set foundation_path=${path}`
+  } else {
+    return `export foundation_path=${path}`
+  }
+}
+
+/**
  * 执行命令
  *
  * @param {string}   command  需要执行的命令
  * @param {function} callback 成功回调
+ * @param {boolean}  checkFoundationPath 是否检查 Foundation 路径
  */
-function execute (command, callback) {
-  checkPath().then(path => {
-    exec(`export foundation_path=${path} && ${command}`, (error, stdout, stderr) => {
+function execute (command, callback, checkFoundationPath = true) {
+  let cb = path => {
+    let prefix = setEnvCommand(path)
+    exec(`${prefix} && ${command}`, (error, stdout, stderr) => {
       if (error) {
         console.error(error)
         if (!stdout) {
@@ -32,7 +49,12 @@ function execute (command, callback) {
         callback(stdout)
       }
     })
-  })
+  }
+  if (checkFoundationPath) {
+    checkPath().then(cb)
+  } else {
+    cb()
+  }
 }
 
 /**
@@ -84,7 +106,7 @@ function phpVersion (callback) {
       let err = '未安装（或未配置环境变量）'
       callback(err)
     }
-  })
+  }, false)
 }
 
 /**
@@ -100,7 +122,7 @@ function swooleVersion (callback) {
       let err = '未安装（或未配置环境变量）'
       callback(err)
     }
-  })
+  }, false)
 }
 
 /**
@@ -117,7 +139,7 @@ function gitVersion (callback) {
       let err = '未安装（或未配置环境变量）'
       callback(err)
     }
-  })
+  }, false)
 }
 
 export {
