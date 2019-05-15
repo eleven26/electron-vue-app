@@ -54,7 +54,9 @@
     watch: {
       new_foundation_path (val) {
         if (val) {
-          val = val.replace(/\\/g, '\\\\')
+          if (val.match(/\\/g) && !val.match(/\\\\/g)) {
+            val = val.replace(/\\/g, '\\\\')
+          }
         }
         this.foundation_path = val
         localStorage.setItem('foundation_path', val)
