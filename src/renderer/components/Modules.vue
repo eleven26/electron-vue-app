@@ -21,6 +21,7 @@
 
 <script>
   import { currentBranch } from '../commands'
+  import {resolveModulePaths} from '../utils'
 
   // 检测所有模块当前分支(前提 foundation 路径正确)
   export default {
@@ -37,18 +38,6 @@
       return {
         paths: [],
         tables: [],
-        modules: [
-          'Admin',
-          'Finance',
-          'Core',
-          'Openapi',
-          'Order',
-          'Product',
-          'Shop',
-          'Social',
-          'Stock',
-          'User'
-        ],
         loadingObj: null
       }
     },
@@ -59,17 +48,9 @@
     },
 
     methods: {
-      resolvePaths () {
-        let paths = this.modules.map(module => {
-          return `${this.foundation_path}/Modules/${module}`
-        })
-        paths.unshift(this.foundation_path)
-
-        this.paths = paths
-      },
       getModulesCurrentBranch () {
         const promises = []
-        this.resolvePaths()
+        this.paths = resolveModulePaths()
         this.tables = []
 
         this.paths.forEach(path => {

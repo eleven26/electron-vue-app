@@ -49,7 +49,7 @@
           return
         }
         this.loading = true
-        execute(`./bin/switch_env.php ${this.env}`, () => {
+        execute(`php ./bin/switch_env.php ${this.env}`, () => {
           Notification.success({
             message: this.env === 'local' ? '成功还原 env !' : `成功切换到 ${this.env} !`,
             position: 'bottom-right'

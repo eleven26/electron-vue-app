@@ -20,7 +20,7 @@
   import { Notification } from 'element-ui'
   import { execute } from '../../commands'
   import Modules from '@/components/Modules'
-  import {foundationPath} from '../../utils'
+  import {foundationPath, resolveModulePaths} from '../../utils'
 
   export default {
     name: 'SwitchBranch',
@@ -56,8 +56,26 @@
         this.$refs.modules.clearTable()
         this.$refs.modules.loading()
         this.loading = true
-        execute(`php ./bin/checkout.php ${this.checkout_branch}`, output => {
-          console.log(output)
+        // execute(`php ./bin/checkout.php ${this.checkout_branch}`, output => {
+        //   Notification.success({
+        //     message: `成功切换到分支 ${this.checkout_branch}`,
+        //     position: 'bottom-right'
+        //   })
+        //   this.$refs.modules.getModulesCurrentBranch()
+        //   this.loading = false
+        // })
+        let promises = []
+        resolveModulePaths().forEach(path => {
+          let promise = new Promise(resolve => {
+            execute(`set module=${path} && php ./bin/checkout.php ${this.checkout_branch}`, output => {
+              resolve()
+            })
+          })
+          promises.push(promise)
+        })
+
+        Promise.all(promises, res => {
+        }).finally(() => {
           Notification.success({
             message: `成功切换到分支 ${this.checkout_branch}`,
             position: 'bottom-right'
