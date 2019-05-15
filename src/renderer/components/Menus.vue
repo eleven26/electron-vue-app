@@ -35,15 +35,16 @@
           {
             title: '切换 env',
             name: 'switch-env'
-          },
-          {
-            title: 'todo',
-            name: 'todo'
-          },
-          {
-            title: 'artisan',
-            name: 'artisan'
           }
+          // ,
+          // {
+          //   title: 'todo',
+          //   name: 'todo'
+          // },
+          // {
+          //   title: 'artisan',
+          //   name: 'artisan'
+          // }
         ]
       }
     },

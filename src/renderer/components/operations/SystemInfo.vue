@@ -1,6 +1,6 @@
 <template>
   <el-row style="margin-top: 100px">
-    <el-col :span="12" :offset="6">
+    <el-col :span="14" :offset="4">
       <el-card shadow="never">
         <template slot="header">系统信息</template>
         <el-form label-width="150px">
