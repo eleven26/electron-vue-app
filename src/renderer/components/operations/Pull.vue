@@ -1,10 +1,10 @@
 <template>
-  <el-button :loading="loading" @click="pull">Pull all</el-button>
+  <el-button :disabled="disabled" :loading="loading" @click="pull">Pull all</el-button>
 </template>
 
 <script>
   import { Notification } from 'element-ui'
-  import { execute } from '../../commands'
+  import {checkPath, execute} from '../../commands'
   import {resolveModulePaths} from '../../utils'
 
   export default {
@@ -12,8 +12,15 @@
 
     data () {
       return {
-        loading: false
+        loading: false,
+        disabled: true
       }
+    },
+
+    mounted () {
+      checkPath().then(() => {
+        this.disabled = false
+      })
     },
 
     methods: {

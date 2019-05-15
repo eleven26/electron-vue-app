@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import { currentBranch } from '../commands'
+  import {checkPath, currentBranch} from '../commands'
   import {resolveModulePaths} from '../utils'
 
   // 检测所有模块当前分支(前提 foundation 路径正确)
@@ -31,6 +31,11 @@
       foundation_path: {
         type: String,
         required: true
+      },
+      from_switch_branch: {
+        type: Boolean,
+        required: false,
+        default: false
       }
     },
 
@@ -44,7 +49,13 @@
 
     mounted () {
       // 可以父组件检查 Foundation 路径
-      this.getModulesCurrentBranch()
+      if (this.from_switch_branch) {
+        checkPath(false).then(() => {
+          this.getModulesCurrentBranch()
+        })
+      } else {
+        this.getModulesCurrentBranch()
+      }
     },
 
     methods: {

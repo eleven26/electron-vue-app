@@ -62,17 +62,19 @@ function execute (command, callback, checkFoundationPath = true) {
  *
  * @returns {Promise<any>}
  */
-function checkPath () {
+function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
 
     // eslint-disable-next-line handle-callback-err
     exec(`cd ${path} && git config --get remote.origin.url`, (error, stdout, stderr) => {
       if (!stdout || stdout.indexOf('Foundation.git') === -1) {
-        Notification.error({
-          message: `Foundation 路径配置不正确: ${path}`,
-          position: 'bottom-right'
-        })
+        if (throwErr) {
+          Notification.error({
+            message: `Foundation 路径配置不正确: ${path}`,
+            position: 'bottom-right'
+          })
+        }
       } else {
         resolve(path)
       }

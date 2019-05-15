@@ -2,19 +2,19 @@
   <el-form>
     <el-form-item label="切换 env">
       <el-radio-group v-model="env">
-        <el-radio-button label="qa1"></el-radio-button>
-        <el-radio-button label="qa2"></el-radio-button>
-        <el-radio-button label="qa3"></el-radio-button>
-        <el-radio-button label="demo"></el-radio-button>
+        <el-radio-button :disabled="disabled" label="qa1"></el-radio-button>
+        <el-radio-button :disabled="disabled" label="qa2"></el-radio-button>
+        <el-radio-button :disabled="disabled" label="qa3"></el-radio-button>
+        <el-radio-button :disabled="disabled" label="demo"></el-radio-button>
       </el-radio-group>
-      <el-button :loading="loading" type="primary" @click="switchEnv('local')">还原</el-button>
+      <el-button :disabled="disabled" :loading="loading" type="primary" @click="switchEnv('local')">还原</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
   import { Notification } from 'element-ui'
-  import { execute } from '../../commands'
+  import {checkPath, execute} from '../../commands'
 
   export default {
     name: 'SwitchEnv',
@@ -31,8 +31,15 @@
           'demo',
           'local'
         ],
-        loading: false
+        loading: false,
+        disabled: true
       }
+    },
+
+    mounted () {
+      checkPath().then(() => {
+        this.disabled = false
+      })
     },
 
     methods: {

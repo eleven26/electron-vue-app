@@ -9,16 +9,16 @@
                      :value="branch"></el-option>
         </el-select>
       </el-form-item>
-      <el-button :loading="loading" type="primary" @click="checkout">确定</el-button>
+      <el-button :disabled="disabled" :loading="loading" type="primary" @click="checkout">确定</el-button>
     </el-form>
 
-    <modules ref="modules" :foundation_path="foundation_path"></modules>
+    <modules ref="modules" :from_switch_branch="true" :foundation_path="foundation_path"></modules>
   </div>
 </template>
 
 <script>
   import { Notification } from 'element-ui'
-  import { execute } from '../../commands'
+  import {checkPath, execute} from '../../commands'
   import Modules from '@/components/Modules'
   import {foundationPath, resolveModulePaths} from '../../utils'
 
@@ -39,8 +39,15 @@
           'master',
           'dev/v1.1.4'
         ],
-        loading: false
+        loading: false,
+        disabled: true
       }
+    },
+
+    mounted () {
+      checkPath().then(() => {
+        this.disabled = false
+      })
     },
 
     methods: {

@@ -48,6 +48,7 @@
       closeDialog () {
         this.dialogVisible = false
         this.foundation_path = this.new_foundation_path
+        location.reload()
       }
     },
 
