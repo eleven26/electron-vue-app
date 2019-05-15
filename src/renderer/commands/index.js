@@ -1,6 +1,6 @@
 /* eslint-disable no-path-concat */
 import { Notification } from 'element-ui'
-import {isWin} from '../utils'
+import {foundationPath, isWin} from '../utils'
 const exec = require('child_process').exec
 
 /**
@@ -11,9 +11,9 @@ const exec = require('child_process').exec
  */
 function setEnvCommand (path) {
   if (isWin()) {
-    return `set foundation_path=${path}`
+    return `set temp_foundation_path=${path}`
   } else {
-    return `export foundation_path=${path}`
+    return `export temp_foundation_path=${path}`
   }
 }
 
@@ -26,8 +26,9 @@ function setEnvCommand (path) {
  */
 function execute (command, callback, checkFoundationPath = true) {
   let cb = path => {
+    if (path) path = path.trim()
     let prefix = setEnvCommand(path)
-    console.log(`${prefix} && ${command}`)
+
     exec(`${prefix} && ${command}`, (error, stdout, stderr) => {
       if (error) {
         console.error(error)
@@ -63,13 +64,14 @@ function execute (command, callback, checkFoundationPath = true) {
  */
 function checkPath () {
   return new Promise(resolve => {
-    let path = localStorage.getItem('foundation_path')
+    let path = foundationPath()
 
     // eslint-disable-next-line handle-callback-err
     exec(`cd ${path} && git config --get remote.origin.url`, (error, stdout, stderr) => {
       if (!stdout || stdout.indexOf('Foundation.git') === -1) {
         Notification.error({
-          message: `Foundation 路径配置不正确: ${path}`
+          message: `Foundation 路径配置不正确: ${path}`,
+          position: 'bottom-right'
         })
       } else {
         resolve(path)

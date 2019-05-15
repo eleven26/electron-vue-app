@@ -20,12 +20,13 @@
   import { Notification } from 'element-ui'
   import { execute } from '../../commands'
   import Modules from '@/components/Modules'
+  import {foundationPath} from '../../utils'
 
   export default {
     name: 'SwitchBranch',
     components: {Modules},
     data () {
-      let path = localStorage.getItem('foundation_path')
+      let path = foundationPath() || ''
 
       return {
         foundation_path: path,

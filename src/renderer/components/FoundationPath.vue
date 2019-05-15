@@ -25,11 +25,13 @@
 </template>
 
 <script>
+  import {foundationPath} from '../utils'
+
   export default {
     name: 'FoundationPath',
 
     data () {
-      let path = localStorage.getItem('foundation_path')
+      let path = foundationPath()
 
       return {
         foundation_path: path,
@@ -51,6 +53,9 @@
 
     watch: {
       new_foundation_path (val) {
+        if (val) {
+          val = val.replace(/\\/g, '\\\\')
+        }
         this.foundation_path = val
         localStorage.setItem('foundation_path', val)
       }
