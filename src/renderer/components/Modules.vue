@@ -67,6 +67,7 @@
         this.paths.forEach(path => {
           let promise = new Promise(resolve => {
             currentBranch(path).then(branch => {
+              console.log(branch)
               path = path.replace(/\\/g, '/')
               this.tables.push({
                 module: path.split('/').pop(),
