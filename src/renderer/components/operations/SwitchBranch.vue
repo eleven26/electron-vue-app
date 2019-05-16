@@ -20,7 +20,7 @@
   import { Notification } from 'element-ui'
   import {checkPath, execute} from '../../commands'
   import Modules from '@/components/Modules'
-  import {foundationPath, isWin, resolveModulePaths} from '../../utils'
+  import {foundationPath, resolveModulePaths} from '../../utils'
 
   export default {
     name: 'SwitchBranch',
@@ -75,8 +75,7 @@
         let promises = []
         resolveModulePaths().forEach(obj => {
           let promise = new Promise(resolve => {
-            let prefix = isWin() ? `set module=${obj.module}` : `export module=${obj.module}`
-            execute(`${prefix} && php ./bin/checkout.php ${this.checkout_branch}`, output => {
+            execute(`php ./bin/checkout.php --branch=${this.checkout_branch} --module=${obj.module}`, output => {
               resolve()
             })
           })
