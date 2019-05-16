@@ -61,7 +61,7 @@
     methods: {
       getModulesCurrentBranch () {
         const promises = []
-        this.paths = resolveModulePaths()
+        this.paths = resolveModulePaths().map(obj => obj.path)
         this.tables = []
 
         this.paths.forEach(path => {

@@ -2,7 +2,7 @@
 import { Notification } from 'element-ui'
 import {foundationPath, isWin} from '../utils'
 const exec = require('child_process').exec
-const spawn = require('child_process').spawn
+// const spawn = require('child_process').spawn
 
 /**
  * 设置环境变量的命令兼容处理
@@ -30,46 +30,46 @@ function execute (command, callback, checkFoundationPath = true) {
     if (path) path = path.trim()
     let prefix = setEnvCommand(path)
 
-    const spawnObj = spawn(`${prefix} && ${command}`, [], {shell: true})
-    spawnObj.stdout.on('data', function (chunk) {
-      // console.log(chunk.toString())
-      callback(chunk.toString())
-    })
-    spawnObj.stderr.on('data', (data) => {
-      if (data) {
-        // console.error(data.toString())
-        Notification.error({
-          message: data
-        })
-      }
-    })
-    spawnObj.on('close', function (code) {
-      // console.log('close code : ' + code)
-    })
-    spawnObj.on('exit', (code) => {
-      // console.log('exit code : ' + code)
-    })
-
-    // exec(`${prefix} && ${command}`, (error, stdout, stderr) => {
-    //   if (error) {
-    //     console.error(error)
-    //     if (!stdout) {
-    //       Notification.error({
-    //         message: error
-    //       })
-    //     }
-    //   }
-    //   if (stderr) {
-    //     console.error(stderr)
-    //     if (!stdout) {
-    //       Notification.error({
-    //         message: error
-    //       })
-    //     }
-    //   }
-    //
-    //   callback(stdout)
+    // const spawnObj = spawn(`${prefix} && ${command}`, [], {shell: true})
+    // spawnObj.stdout.on('data', function (chunk) {
+    //   // console.log(chunk.toString())
+    //   callback(chunk.toString())
     // })
+    // spawnObj.stderr.on('data', (data) => {
+    //   if (data) {
+    //     // console.error(data.toString())
+    //     Notification.error({
+    //       message: data
+    //     })
+    //   }
+    // })
+    // spawnObj.on('close', function (code) {
+    //   // console.log('close code : ' + code)
+    // })
+    // spawnObj.on('exit', (code) => {
+    //   // console.log('exit code : ' + code)
+    // })
+
+    exec(`${prefix} && ${command}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(error)
+        if (!stdout) {
+          Notification.error({
+            message: error
+          })
+        }
+      }
+      if (stderr) {
+        console.error(stderr)
+        if (!stdout) {
+          Notification.error({
+            message: error
+          })
+        }
+      }
+
+      callback(stdout)
+    })
   }
   if (checkFoundationPath) {
     checkPath().then(cb)

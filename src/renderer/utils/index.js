@@ -38,9 +38,9 @@ function resolveModulePaths () {
     'User'
   ]
   let paths = modules.map(module => {
-    return `${foundationPath1}/Modules/${module}`
+    return {path: `${foundationPath1}/Modules/${module}`, module: module}
   })
-  paths.unshift(foundationPath1)
+  paths.unshift({path: foundationPath1, module: 'Foundation'})
   return paths
 }
 
