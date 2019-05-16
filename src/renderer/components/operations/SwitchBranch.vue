@@ -37,7 +37,8 @@
           'qa/qa3',
           'release',
           'master',
-          'dev/v1.1.4'
+          'dev/v1.1.4',
+          'dev/v1.1.5'
         ],
         loading: false,
         disabled: true
