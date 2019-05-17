@@ -27,6 +27,9 @@
     "files": [
       "dist/electron/**/*"
     ],
+    "extraResources": [
+      "./bin"
+    ],
     "dmg": {
       "contents": [
         {
@@ -54,6 +57,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "electron-log": "^3.0.5",
+    "electron-root-path": "^1.0.9",
     "element-ui": "^2.8.2",
     "fix-path": "^2.1.0",
     "vue": "^2.5.16",
