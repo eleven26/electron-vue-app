@@ -5,7 +5,7 @@
 <script>
   import { Notification } from 'element-ui'
   import {checkPath, execute} from '../../commands'
-  import {resolveModulePaths} from '../../utils'
+  import {resolveBinFilePath, resolveModulePaths} from '../../utils'
 
   export default {
     name: 'Pull',
@@ -37,8 +37,9 @@
         let promises = []
         resolveModulePaths().forEach(obj => {
           let promise = new Promise(resolve => {
-            console.log(`php ./bin/pull.php --module=${obj.module}`)
-            execute(`php ./bin/pull.php --module=${obj.module}`, output => {
+            const binFile = resolveBinFilePath('pull.php')
+            console.log(`php ${binFile} --module=${obj.module}`)
+            execute(`php ${binFile} --module=${obj.module}`, output => {
               resolve()
             })
           })

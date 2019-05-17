@@ -2,6 +2,7 @@
 import { Notification } from 'element-ui'
 import {foundationPath, isWin} from '../utils'
 const exec = require('child_process').exec
+// const log = require('electron-log')
 // const spawn = require('child_process').spawn
 
 /**
@@ -50,9 +51,10 @@ function execute (command, callback, checkFoundationPath = true) {
     //   // console.log('exit code : ' + code)
     // })
 
+    // log.info(`${prefix} && ${command}`)
     exec(`${prefix} && ${command}`, (error, stdout, stderr) => {
       if (error) {
-        console.error(error)
+        // log.error(error)
         if (!stdout) {
           Notification.error({
             message: error
@@ -60,7 +62,7 @@ function execute (command, callback, checkFoundationPath = true) {
         }
       }
       if (stderr) {
-        console.error(stderr)
+        // log.error(stderr)
         if (!stdout) {
           Notification.error({
             message: error

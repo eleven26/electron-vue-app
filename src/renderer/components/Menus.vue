@@ -35,6 +35,10 @@
           {
             title: '切换 env',
             name: 'switch-env'
+          },
+          {
+            title: 'test',
+            name: 'test'
           }
           // ,
           // {

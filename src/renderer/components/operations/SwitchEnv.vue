@@ -15,6 +15,7 @@
 <script>
   import { Notification } from 'element-ui'
   import {checkPath, execute} from '../../commands'
+  import {resolveBinFilePath} from '../../utils'
 
   export default {
     name: 'SwitchEnv',
@@ -56,7 +57,8 @@
           return
         }
         this.loading = true
-        execute(`php ./bin/switch_env.php ${this.env}`, () => {
+        const binFile = resolveBinFilePath('switch_env.php')
+        execute(`php ${binFile} ${this.env}`, () => {
           Notification.success({
             message: this.env === 'local' ? '成功还原 env !' : `成功切换到 ${this.env} !`,
             position: 'bottom-right'

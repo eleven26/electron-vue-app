@@ -20,7 +20,7 @@
   import { Notification } from 'element-ui'
   import {checkPath, execute} from '../../commands'
   import Modules from '@/components/Modules'
-  import {foundationPath, resolveModulePaths} from '../../utils'
+  import {foundationPath, resolveBinFilePath, resolveModulePaths} from '../../utils'
 
   export default {
     name: 'SwitchBranch',
@@ -73,9 +73,10 @@
         //   this.loading = false
         // })
         let promises = []
+        const binFile = resolveBinFilePath('checkout.php')
         resolveModulePaths().forEach(obj => {
           let promise = new Promise(resolve => {
-            execute(`php ./bin/checkout.php --branch=${this.checkout_branch} --module=${obj.module}`, output => {
+            execute(`php ${binFile} --branch=${this.checkout_branch} --module=${obj.module}`, output => {
               resolve()
             })
           })

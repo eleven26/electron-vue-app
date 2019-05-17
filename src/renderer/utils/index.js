@@ -1,3 +1,6 @@
+import { rootPath } from 'electron-root-path'
+const path = require('path')
+
 /**
  * 是否是 windows
  *
@@ -44,8 +47,20 @@ function resolveModulePaths () {
   return paths
 }
 
+/**
+ * 获取 bin 文件绝对路径
+ *
+ * @param {string} file
+ * @returns {string}
+ */
+function resolveBinFilePath (file) {
+  // todo 兼容 windows
+  return path.join(rootPath, `/Contents/Resources/bin/` + file)
+}
+
 export {
   isWin,
   foundationPath,
-  resolveModulePaths
+  resolveModulePaths,
+  resolveBinFilePath
 }

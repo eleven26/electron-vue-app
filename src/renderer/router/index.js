@@ -39,6 +39,11 @@ export default new Router({
           name: 'artisan',
           path: '/artisan',
           component: require('@/components/operations/Artisan').default
+        },
+        {
+          name: 'test',
+          path: '/test',
+          component: require('@/components/operations/Test').default
         }
       ]
     },
