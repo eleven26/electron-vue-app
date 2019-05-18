@@ -48,6 +48,10 @@
           {
             title: 'Artisan 命令',
             name: 'artisan'
+          },
+          {
+            title: '注意事项',
+            name: 'notice'
           }
         ]
       }

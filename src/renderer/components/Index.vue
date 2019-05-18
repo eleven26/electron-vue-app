@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <menus></menus>
+    <menus style="width: 160px;position: fixed"></menus>
 
-    <el-main>
+    <el-main style="margin-left: 160px">
       <foundation-path></foundation-path>
       <router-view></router-view>
     </el-main>

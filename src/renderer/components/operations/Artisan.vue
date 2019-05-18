@@ -17,6 +17,7 @@
 </template>
 
 <script>
+  import { Notification } from 'element-ui'
   import {getArtisanCommands} from '../../commands'
 
   export default {
@@ -49,7 +50,7 @@
           try {
             this.artisanCommands = JSON.parse(commands.trim())
           } catch (e) {
-            Notification.success({
+            Notification.error({
               message: `返回数据格式错误`,
               position: 'bottom-right'
             })

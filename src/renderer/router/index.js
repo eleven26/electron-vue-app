@@ -44,6 +44,11 @@ export default new Router({
           name: 'test',
           path: '/test',
           component: require('@/components/operations/Test').default
+        },
+        {
+          name: 'notice',
+          path: '/notice',
+          component: require('@/components/Notice').default
         }
       ]
     },

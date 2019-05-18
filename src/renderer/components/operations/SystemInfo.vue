@@ -1,5 +1,5 @@
 <template>
-  <el-row style="margin-top: 100px">
+  <el-row style="margin-top: 60px">
     <el-col :span="14" :offset="4">
       <el-card shadow="never">
         <template slot="header">系统信息</template>
