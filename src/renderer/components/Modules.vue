@@ -59,15 +59,14 @@
     },
 
     methods: {
+      // 获取所有模块当前分支
       getModulesCurrentBranch () {
-        const promises = []
         this.paths = resolveModulePaths().map(obj => obj.path)
         this.tables = []
 
-        this.paths.forEach(path => {
-          let promise = new Promise(resolve => {
+        const promises = this.paths.map(path => {
+          return new Promise(resolve => {
             currentBranch(path).then(branch => {
-              console.log(branch)
               path = path.replace(/\\/g, '/')
               this.tables.push({
                 module: path.split('/').pop(),
@@ -76,29 +75,31 @@
               resolve()
             })
           })
-          promises.push(promise)
         })
 
         this.loading()
-        Promise.all(promises).then(() => {
-          this.closeLoading()
-        })
+        Promise.all(promises).then(() => this.closeLoading())
       },
+      // 清除当前表格数据
       clearTable () {
         this.tables = []
       },
+      // 表格位置显示 loading 动画
       loading () {
         if (this.loadingObj) this.loadingObj.close()
+
         this.loadingObj = this.$loading({
           target: document.querySelector('.modules-table')
         })
       },
+      // 关闭 loading 动画
       closeLoading () {
         this.loadingObj.close()
       }
     },
 
     watch: {
+      // Foundation 路径变动的时候需要重新获取所有模块的当前分支
       foundation_path (val) {
         this.foundation_path = val
         this.getModulesCurrentBranch()

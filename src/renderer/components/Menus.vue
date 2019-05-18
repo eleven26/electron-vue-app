@@ -54,6 +54,7 @@
     },
 
     methods: {
+      // 切换菜单
       showMenu (name) {
         this.$router.push({ name })
       }

@@ -31,6 +31,7 @@
     name: 'FoundationPath',
 
     data () {
+      // 从 localStorage 获取配置的 Foundation 路径
       let path = foundationPath()
 
       return {
@@ -41,10 +42,12 @@
     },
 
     methods: {
+      // 显示修改 Foundation 路径的对话框
       changeFoundationPath () {
         this.new_foundation_path = this.foundation_path
         this.dialogVisible = true
       },
+      // 关闭修改 Foundation 路径对话框
       closeDialog () {
         this.dialogVisible = false
         this.foundation_path = this.new_foundation_path
@@ -53,6 +56,7 @@
     },
 
     watch: {
+      // 修改 Foundation 路径的时候更新 localStorage，同时把路径的 \ 替换成 \\（因为 \ 会产生转义效果）
       new_foundation_path (val) {
         if (val) {
           if (val.match(/\\/g) && !val.match(/\\\\/g)) {

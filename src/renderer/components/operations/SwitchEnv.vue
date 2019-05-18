@@ -50,12 +50,14 @@
     },
 
     mounted () {
+      // 切换 env 之前确保 Foundation 路径正确
       checkPath().then(() => {
         this.disabled = false
       })
     },
 
     methods: {
+      // 切换 env
       switchEnv (env) {
         if (env) {
           this.env = env
@@ -69,18 +71,25 @@
           return
         }
         this.loading = true
+        execute(this.command(), () => this.success())
+      },
+      // 切换 env 的命令
+      command () {
         const binFile = resolveBinFilePath('switch_env.php')
-        execute(`php ${binFile} ${this.env}`, () => {
-          Notification.success({
-            message: this.env === 'local' ? '成功还原 env !' : `成功切换到 ${this.env} !`,
-            position: 'bottom-right'
-          })
-          this.loading = false
+        return `php ${binFile} ${this.env}`
+      },
+      // 切换成功的回调
+      success () {
+        Notification.success({
+          message: this.env === 'local' ? '成功还原 env !' : `成功切换到 ${this.env} !`,
+          position: 'bottom-right'
         })
+        this.loading = false
       }
     },
 
     watch: {
+      // env 变动的时候保存到 localStorage
       env (env) {
         localStorage.setItem('env', env)
         this.switchEnv()

@@ -28,16 +28,19 @@
     },
 
     methods: {
+      // 获取 php 版本
       phpVersion () {
         commands.phpVersion(version => {
           this.php_version = version
         })
       },
+      // 获取 swoole 版本
       swooleVersion () {
         commands.swooleVersion(output => {
           this.swoole_version = output
         })
       },
+      // 获取 git 版本
       gitVersion () {
         commands.gitVersion(output => {
           this.git_version = output

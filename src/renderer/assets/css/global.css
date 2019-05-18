@@ -17,3 +17,6 @@ div.description p code {
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     background: rgba(27,31,35,.05);
 }
+.el-input__inner {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,"Microsoft YaHei" !important;
+}

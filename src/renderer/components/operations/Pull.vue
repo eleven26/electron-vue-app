@@ -27,42 +27,37 @@
     },
 
     mounted () {
+      // 进行拉取操作之前需要确保 Foundation 路径正确
       checkPath().then(() => {
         this.disabled = false
       })
     },
 
     methods: {
+      // 拉取所有模块的当前分支
       pull () {
         this.loading = true
-        // execute(`./bin/pull.php`, output => {
-        //   Notification.success({
-        //     message: '拉取代码成功',
-        //     position: 'bottom-right'
-        //   })
-        //   this.loading = false
-        // })
 
-        let promises = []
-        resolveModulePaths().forEach(obj => {
-          let promise = new Promise(resolve => {
-            const binFile = resolveBinFilePath('pull.php')
-            console.log(`php ${binFile} --module=${obj.module}`)
-            execute(`php ${binFile} --module=${obj.module}`, output => {
-              resolve()
-            })
+        const promises = resolveModulePaths().map(obj => {
+          return new Promise(resolve => {
+            execute(this.command(obj.module), () => resolve())
           })
-          promises.push(promise)
         })
 
-        Promise.all(promises, res => {
-        }).finally(() => {
-          Notification.success({
-            message: '拉取代码成功',
-            position: 'bottom-right'
-          })
-          this.loading = false
+        Promise.all(promises).finally(() => this.finish())
+      },
+      // 拉取模块的命令
+      command (module) {
+        const binFile = resolveBinFilePath('pull.php')
+        return `php ${binFile} --module=${module}`
+      },
+      // 拉取完毕的回调
+      finish () {
+        Notification.success({
+          message: '拉取代码成功',
+          position: 'bottom-right'
         })
+        this.loading = false
       }
     }
   }
