@@ -1,6 +1,6 @@
 /* eslint-disable no-path-concat */
 import { Notification } from 'element-ui'
-import {foundationPath, isWin} from '../utils'
+import {foundationPath, isWin, resolveBinFilePath} from '../utils'
 const exec = require('child_process').exec
 // const log = require('electron-log')
 // const spawn = require('child_process').spawn
@@ -78,6 +78,20 @@ function execute (command, callback, checkFoundationPath = true) {
   } else {
     cb()
   }
+}
+
+/**
+ * 获取 artisan 命令列表
+ *
+ * @returns {Promise<any>}
+ */
+function getArtisanCommands () {
+  return new Promise(resolve => {
+    const artisanPath = resolveBinFilePath('artisan.php')
+    execute(`php ${artisanPath}`, output => {
+      resolve(output)
+    })
+  })
 }
 
 /**
@@ -172,6 +186,7 @@ export {
   execute,
   checkPath,
   currentBranch,
+  getArtisanCommands,
   phpVersion,
   swooleVersion,
   gitVersion

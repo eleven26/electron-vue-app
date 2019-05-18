@@ -1,15 +1,27 @@
 <template>
-  <el-form>
-    <el-form-item label="切换 env">
-      <el-radio-group v-model="env">
-        <el-radio-button :disabled="disabled" label="qa1"></el-radio-button>
-        <el-radio-button :disabled="disabled" label="qa2"></el-radio-button>
-        <el-radio-button :disabled="disabled" label="qa3"></el-radio-button>
-        <el-radio-button :disabled="disabled" label="demo"></el-radio-button>
-      </el-radio-group>
-      <el-button :disabled="disabled" :loading="loading" type="primary" @click="switchEnv('local')">还原</el-button>
-    </el-form-item>
-  </el-form>
+  <div>
+    <el-form label-width="120px">
+      <el-form-item label="切换 env">
+        <el-radio-group v-model="env">
+          <el-radio-button :disabled="disabled" label="qa1"></el-radio-button>
+          <el-radio-button :disabled="disabled" label="qa2"></el-radio-button>
+          <el-radio-button :disabled="disabled" label="qa3"></el-radio-button>
+          <el-radio-button :disabled="disabled" label="demo"></el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item>
+        <el-button :disabled="disabled" :loading="loading" type="primary" @click="switchEnv('local')">还原</el-button>
+      </el-form-item>
+    </el-form>
+    <el-row>
+      <el-col :span="11" style="margin-left: 120px; margin-top: 20px">
+        <div class="description">
+          <p>1. 点击 <code>qa1</code>、<code>qa2</code>、<code>qa3</code>、<code>demo</code> 来切换到不同的 env</p>
+          <p>2. 点击 "还原" 可以把 <code>env</code> 还原为未修改前的状态</p>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>

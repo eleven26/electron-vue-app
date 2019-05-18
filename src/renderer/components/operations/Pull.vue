@@ -1,5 +1,14 @@
 <template>
-  <el-button :disabled="disabled" :loading="loading" @click="pull">Pull all</el-button>
+  <div>
+    <el-button :disabled="disabled" :loading="loading" @click="pull">Pull all</el-button>
+    <el-row>
+      <el-col>
+        <div class="description">
+          <p>点击 <code>"Pull all"</code> 可以拉取所有模块当前分支的代码</p>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>

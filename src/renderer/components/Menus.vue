@@ -36,19 +36,19 @@
             title: '切换 env',
             name: 'switch-env'
           },
-          {
-            title: 'test',
-            name: 'test'
-          }
+          // {
+          //   title: 'test',
+          //   name: 'test'
+          // },
           // ,
           // {
           //   title: 'todo',
           //   name: 'todo'
           // },
-          // {
-          //   title: 'artisan',
-          //   name: 'artisan'
-          // }
+          {
+            title: 'Artisan 命令',
+            name: 'artisan'
+          }
         ]
       }
     },

@@ -9,7 +9,7 @@
 
     <el-col :span="11" :offset="1" style="margin-top: 39px">
       <el-card shadow="never">
-        <div>
+        <div class="description">
           <p>1. 执行此操作会把 <code>Foundation</code> 以及所有其他 <code>Modules</code> 下面的模块切换到选择的那个分支</p>
           <p>2. 如: 选择 <code>qa/qa1</code>, 会把所有 <code>git repo</code> 切换到 <code>qa/qa1</code> 分支</p>
           <p>3. 如果有未提交的代码, 会先执行 <code>git stash</code>, 在切换成功之后再 <code>git stash pop</code> 还原.</p>
@@ -108,14 +108,7 @@
 </script>
 
 <style scoped>
-  code {
-    border-radius: 3px;
-    font-size: 85%;
-    margin: 0;
-    padding: .2em .4em;
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
-    background: rgba(27,31,35,.05);
-  }
+
 </style>
 <style type="scss">
   .modules-table tr td, .modules-table tr th {
