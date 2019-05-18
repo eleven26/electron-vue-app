@@ -54,8 +54,11 @@ function resolveModulePaths () {
  * @returns {string}
  */
 function resolveBinFilePath (file) {
-  // todo 兼容 windows
-  return path.join(rootPath, `/Contents/Resources/bin/` + file)
+  if (isWin()) {
+    return path.join(rootPath, `/resources/bin/` + file)
+  } else {
+    return path.join(rootPath, `/Contents/Resources/bin/` + file)
+  }
 }
 
 export {
