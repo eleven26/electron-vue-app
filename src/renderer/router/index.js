@@ -31,14 +31,19 @@ export default new Router({
           component: require('@/components/operations/SystemInfo').default
         },
         {
-          name: 'todo',
-          path: '/todo',
-          component: require('@/components/Todo').default
-        },
-        {
           name: 'artisan',
           path: '/artisan',
           component: require('@/components/operations/Artisan').default
+        },
+        {
+          name: 'api-blame',
+          path: '/api-blame',
+          component: require('@/components/operations/ApiBlame').default
+        },
+        {
+          name: 'todo',
+          path: '/todo',
+          component: require('@/components/Todo').default
         },
         {
           name: 'test',

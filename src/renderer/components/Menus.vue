@@ -50,6 +50,10 @@
             name: 'artisan'
           },
           {
+            title: 'Api Blame',
+            name: 'api-blame'
+          },
+          {
             title: '注意事项',
             name: 'notice'
           }
