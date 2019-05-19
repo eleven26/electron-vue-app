@@ -10,7 +10,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item>
-        <el-button :disabled="disabled" :loading="loading" type="primary" @click="switchEnv('local')">还原</el-button>
+        <el-button :disabled="disabled" :loading="loading" type="primary" @click="switchToLocal">还原</el-button>
       </el-form-item>
     </el-form>
     <el-row>
@@ -58,18 +58,14 @@
     methods: {
       // 切换 env
       switchEnv (env) {
-        if (env === 'local') {
-          this.newEnv = env
-        }
-        this.$store.dispatch('changeEnv', env)
-
-        if (this.envs.indexOf(this.env) === -1) {
+        if (this.envs.indexOf(this.newEnv) === -1) {
           Notification.error({
             message: '请选择正确的环境',
             position: 'bottom-right'
           })
           return
         }
+        this.$store.dispatch('changeEnv', env)
 
         this.loading = true
         execute(this.command(), () => this.success())
@@ -86,6 +82,9 @@
           position: 'bottom-right'
         })
         this.loading = false
+      },
+      switchToLocal () {
+        this.newEnv = 'local'
       }
     },
 
