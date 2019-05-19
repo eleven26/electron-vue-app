@@ -12,24 +12,24 @@
       <el-button :disabled="disabled" :loading="loading" type="primary" @click="checkout">确定</el-button>
     </el-form>
 
-    <modules ref="modules" :from_switch_branch="true" :foundation_path="foundation_path"></modules>
+    <modules ref="modules" :from_switch_branch="true" :foundation_path="foundationPath"></modules>
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import { Notification } from 'element-ui'
-  import {checkPath, execute} from '../../commands'
+  import { checkPath, execute } from '../../commands'
   import Modules from '@/components/Modules'
-  import {foundationPath, resolveBinFilePath, resolveModulePaths} from '../../utils'
+  import { resolveBinFilePath, resolveModulePaths } from '../../utils'
 
   export default {
     name: 'SwitchBranch',
-    components: {Modules},
-    data () {
-      let path = foundationPath() || ''
 
+    components: { Modules },
+
+    data () {
       return {
-        foundation_path: path,
         checkout_branch: '',
         branches: [
           'qa/qa1',
@@ -95,6 +95,12 @@
         const binFile = resolveBinFilePath('checkout.php')
         return `php ${binFile} --branch=${this.checkout_branch} --module=${module}`
       }
+    },
+
+    computed: {
+      ...mapGetters([
+        'foundationPath'
+      ])
     }
   }
 </script>

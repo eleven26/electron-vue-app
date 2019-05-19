@@ -20,18 +20,15 @@
 </template>
 
 <script>
-  import {checkPath, currentBranch} from '../commands'
-  import {resolveModulePaths} from '../utils'
+  import { mapGetters } from 'vuex'
+  import { checkPath, currentBranch } from '../commands'
+  import { resolveModulePaths } from '../utils'
 
   // 检测所有模块当前分支(前提 foundation 路径正确)
   export default {
     name: 'Modules',
 
     props: {
-      foundation_path: {
-        type: String,
-        required: true
-      },
       from_switch_branch: {
         type: Boolean,
         required: false,
@@ -100,10 +97,16 @@
 
     watch: {
       // Foundation 路径变动的时候需要重新获取所有模块的当前分支
-      foundation_path (val) {
-        this.foundation_path = val
+      foundationPath (val) {
+        this.foundationPath = val
         this.getModulesCurrentBranch()
       }
+    },
+
+    computed: {
+      ...mapGetters([
+        'foundationPath'
+      ])
     }
   }
 </script>

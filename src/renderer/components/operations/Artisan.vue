@@ -18,7 +18,7 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import {getArtisanCommands} from '../../commands'
+  import { getArtisanCommands } from '../../commands'
 
   export default {
     name: 'Artisan',

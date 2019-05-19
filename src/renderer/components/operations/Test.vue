@@ -19,7 +19,7 @@
 
 <script>
   import { rootPath } from 'electron-root-path'
-  import {execute} from '../../commands'
+  import { execute } from '../../commands'
   const log = require('electron-log')
 
   export default {

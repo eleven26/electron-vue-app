@@ -13,8 +13,8 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import {checkPath, execute} from '../../commands'
-  import {resolveBinFilePath, resolveModulePaths} from '../../utils'
+  import { checkPath, execute } from '../../commands'
+  import { resolveBinFilePath, resolveModulePaths } from '../../utils'
 
   export default {
     name: 'Pull',

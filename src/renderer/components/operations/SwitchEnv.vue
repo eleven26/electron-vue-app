@@ -2,7 +2,7 @@
   <div>
     <el-form label-width="120px">
       <el-form-item label="切换 env">
-        <el-radio-group v-model="env">
+        <el-radio-group v-model="newEnv">
           <el-radio-button :disabled="disabled" label="qa1"></el-radio-button>
           <el-radio-button :disabled="disabled" label="qa2"></el-radio-button>
           <el-radio-button :disabled="disabled" label="qa3"></el-radio-button>
@@ -25,18 +25,17 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import { Notification } from 'element-ui'
-  import {checkPath, execute} from '../../commands'
-  import {resolveBinFilePath} from '../../utils'
+  import { checkPath, execute } from '../../commands'
+  import { resolveBinFilePath } from '../../utils'
 
   export default {
     name: 'SwitchEnv',
 
     data () {
-      let env = localStorage.getItem('env')
-
       return {
-        env: env,
+        newEnv: '',
         envs: [
           'qa1',
           'qa2',
@@ -59,10 +58,11 @@
     methods: {
       // 切换 env
       switchEnv (env) {
-        if (env) {
-          this.env = env
-          return
+        if (env === 'local') {
+          this.newEnv = env
         }
+        this.$store.dispatch('changeEnv', env)
+
         if (this.envs.indexOf(this.env) === -1) {
           Notification.error({
             message: '请选择正确的环境',
@@ -70,6 +70,7 @@
           })
           return
         }
+
         this.loading = true
         execute(this.command(), () => this.success())
       },
@@ -90,10 +91,15 @@
 
     watch: {
       // env 变动的时候保存到 localStorage
-      env (env) {
-        localStorage.setItem('env', env)
-        this.switchEnv()
+      newEnv (env) {
+        this.switchEnv(env)
       }
+    },
+
+    computed: {
+      ...mapGetters([
+        'env'
+      ])
     }
   }
 </script>

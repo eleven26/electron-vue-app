@@ -38,8 +38,8 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import {resolveBinFilePath} from '../../utils'
-  import {checkPath, execute} from '../../commands'
+  import { resolveBinFilePath } from '../../utils'
+  import { checkPath, execute } from '../../commands'
 
   export default {
     name: 'ApiBlame',
