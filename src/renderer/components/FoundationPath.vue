@@ -46,7 +46,7 @@
       // 关闭修改 Foundation 路径对话框
       confirm () {
         this.dialogVisible = false
-        this.$store.dispatch('foundation/changeFoundationPath', this.newFoundationPath)
+        this.$store.dispatch('changeFoundationPath', this.newFoundationPath)
         location.reload()
       }
     },
