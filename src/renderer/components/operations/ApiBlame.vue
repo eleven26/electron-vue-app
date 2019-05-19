@@ -1,14 +1,15 @@
 <template>
     <div>
+        <h5 style="margin-left: 7px">查询某个接口的作者、所在控制器和方法</h5>
         <el-form>
-            <el-form-item label="路径">
-                <el-input v-model="url"></el-input>
+            <el-form-item>
+                <el-input placeholder="请输入路径" v-model="url"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button :loading="loading" type="primary" @click="blame">确定</el-button>
                 <el-button @click="clear">清空</el-button>
             </el-form-item>
-            <el-form-item v-show="showDetail" label-width="120px" label="开发者：">
+            <el-form-item style="margin-top: 20px" v-show="showDetail" label-width="120px" label="开发者：">
                 {{ developer }}
             </el-form-item>
             <el-form-item v-show="showDetail" label-width="120px" label="文档地址：">
@@ -45,7 +46,7 @@
 
     data () {
       return {
-        url: 'https://api.86yqy.com/api/shop/promotion/special-price?page=1&page_size=3&status=1&supplier_id=15149',
+        url: '',
         developer: '',
         docs_url: '',
         raw_docs: '',
@@ -123,5 +124,13 @@
 }
 .modules-table tr td, .modules-table tr th {
     padding: 2px 0;
+}
+</style>
+<style>
+.el-form-item__label, .el-form-item__content {
+    line-height: 22px !important;
+}
+.el-form-item {
+    margin-bottom: 10px !important;
 }
 </style>
