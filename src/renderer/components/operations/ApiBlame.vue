@@ -60,6 +60,25 @@
 
     methods: {
       blame () {
+        if (this.url === '') {
+          Notification.error({
+            message: `请输入 URL`,
+            position: 'bottom-right'
+          })
+          return
+        }
+
+        try {
+          // eslint-disable-next-line no-new
+          new URL(this.url)
+        } catch (e) {
+          Notification.error({
+            message: `URL 格式错误`,
+            position: 'bottom-right'
+          })
+          return
+        }
+
         this.loading = true
         this.resolveParams()
         checkPath().then(() => {
