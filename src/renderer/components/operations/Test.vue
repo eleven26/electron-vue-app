@@ -10,7 +10,7 @@
       <el-button @click="run">运行</el-button>
       <el-button @click="clear">清空输出</el-button>
 
-      <el-form-item label="命令输出">
+      <el-form-item label="命令输出" style="margin-top: 10px">
         <el-input type="textarea" :rows="6" v-model="output"></el-input>
       </el-form-item>
     </el-form>

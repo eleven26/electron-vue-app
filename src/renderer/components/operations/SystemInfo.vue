@@ -27,7 +27,21 @@
       }
     },
 
+    mounted () {
+      this.listenKeyboard()
+    },
+
     methods: {
+      listenKeyboard () {
+        let Mousetrap = require('mousetrap')
+        // map multiple combinations to the same callback
+        Mousetrap.bind(['command+t', 'ctrl+t'], () => {
+          this.$router.push({ name: 'test' })
+          // return false to prevent default browser behavior
+          // and stop event from bubbling
+          return false
+        })
+      },
       // 获取 php 版本
       phpVersion () {
         commands.phpVersion(version => {
