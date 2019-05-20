@@ -2,7 +2,7 @@
 import { Notification } from 'element-ui'
 import {foundationPath, isWin, resolveBinFilePath} from '../utils'
 const exec = require('child_process').exec
-// const log = require('electron-log')
+const log = require('electron-log')
 // const spawn = require('child_process').spawn
 
 /**
@@ -103,9 +103,11 @@ function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
 
-    // eslint-disable-next-line handle-callback-err
     exec(`cd ${path} && git config --get remote.origin.url`, (error, stdout, stderr) => {
       if (!stdout || stdout.indexOf('Foundation.git') === -1) {
+        log.error(error)
+        log.info(stdout)
+        log.error(stderr)
         if (throwErr) {
           Notification.error({
             message: `Foundation 路径配置不正确: ${path}`,
