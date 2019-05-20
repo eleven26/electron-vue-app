@@ -13,7 +13,7 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import { checkPath, execute } from '../../commands'
+  import { checkPath, executeWithFoundationPath } from '../../commands'
   import { resolveBinFilePath, resolveModulePaths } from '../../utils'
 
   export default {
@@ -40,7 +40,7 @@
 
         const promises = resolveModulePaths().map(obj => {
           return new Promise(resolve => {
-            execute(this.command(obj.module), () => resolve())
+            executeWithFoundationPath(this.command(obj.module), () => resolve())
           })
         })
 

@@ -1,58 +1,24 @@
-/* eslint-disable no-path-concat */
 import { Notification } from 'element-ui'
-import {foundationPath, isWin, resolveBinFilePath} from '../utils'
+import { foundationPath, resolveBinFilePath } from '../utils'
 const exec = require('child_process').exec
 const log = require('electron-log')
 // const spawn = require('child_process').spawn
 
 /**
- * 设置环境变量的命令兼容处理
- *
- * @param path
- * @returns {string}
- */
-function setEnvCommand (path) {
-  if (isWin()) {
-    return `set temp_foundation_path=${path}`
-  } else {
-    return `export temp_foundation_path=${path}`
-  }
-}
-
-/**
  * 执行命令
  *
  * @param {string}   command  需要执行的命令
+ * @param {Object}   options
  * @param {function} callback 成功回调
- * @param {boolean}  checkFoundationPath 是否检查 Foundation 路径
  */
-function execute (command, callback, checkFoundationPath = true) {
-  let cb = path => {
-    if (path) path = path.trim()
-    let prefix = setEnvCommand(path)
+function execute (command, options = null, callback = null) {
+  if (typeof options === 'function') {
+    callback = options
+    options = null
+  }
 
-    // const spawnObj = spawn(`${prefix} && ${command}`, [], {shell: true})
-    // spawnObj.stdout.on('data', function (chunk) {
-    //   // console.log(chunk.toString())
-    //   callback(chunk.toString())
-    // })
-    // spawnObj.stderr.on('data', (data) => {
-    //   if (data) {
-    //     // console.error(data.toString())
-    //     Notification.error({
-    //       message: data
-    //     })
-    //   }
-    // })
-    // spawnObj.on('close', function (code) {
-    //   // console.log('close code : ' + code)
-    // })
-    // spawnObj.on('exit', (code) => {
-    //   // console.log('exit code : ' + code)
-    // })
-
-    // log.info(`${prefix} && ${command}`)
-    exec(`${prefix} && ${command}`, (error, stdout, stderr) => {
+  let cb = () => {
+    exec(`${command}`, options || {}, (error, stdout, stderr) => {
       if (error) {
         // log.error(error)
         if (!stdout) {
@@ -73,11 +39,44 @@ function execute (command, callback, checkFoundationPath = true) {
       callback(stdout)
     })
   }
-  if (checkFoundationPath) {
-    checkPath().then(cb)
-  } else {
-    cb()
+
+  cb()
+}
+
+/**
+ * 执行命令，执行之前检查 Foundation 路径是否正确
+ *
+ * @param command
+ * @param callback
+ */
+function executeWithFoundationPath (command, callback) {
+  let cb = path => {
+    if (path) path = path.trim()
+    let postfix = `--foundation_path=${path}`
+
+    exec(`${command} ${postfix}`, (error, stdout, stderr) => {
+      if (error) {
+        // log.error(error)
+        if (!stdout) {
+          Notification.error({
+            message: error
+          })
+        }
+      }
+      if (stderr) {
+        // log.error(stderr)
+        if (!stdout) {
+          Notification.error({
+            message: error
+          })
+        }
+      }
+
+      callback(stdout)
+    })
   }
+
+  checkPath().then(cb)
 }
 
 /**
@@ -103,7 +102,7 @@ function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
 
-    exec(`cd ${path} && git config --get remote.origin.url`, (error, stdout, stderr) => {
+    exec(`git config --get remote.origin.url`, { cwd: path }, (error, stdout, stderr) => {
       if (!stdout || stdout.indexOf('Foundation.git') === -1) {
         log.error(error)
         log.info(stdout)
@@ -129,7 +128,7 @@ function checkPath (throwErr = true) {
  */
 function currentBranch (path) {
   return new Promise(resolve => {
-    execute(`cd ${path} && git status -b -u no`, output => {
+    execute(`git status -b -u no`, { cwd: path }, output => {
       resolve(output.split('\n').shift().split(' ').pop())
     })
   })
@@ -148,7 +147,7 @@ function phpVersion (callback) {
       let err = '未安装（或未配置环境变量）'
       callback(err)
     }
-  }, false)
+  })
 }
 
 /**
@@ -161,10 +160,10 @@ function swooleVersion (callback) {
     if (Number.isInteger(Number(output[0]))) {
       callback(output || '未安装')
     } else {
-      let err = '未安装（或未配置环境变量）'
+      let err = '未安装（windows 不支持）'
       callback(err)
     }
-  }, false)
+  })
 }
 
 /**
@@ -181,11 +180,12 @@ function gitVersion (callback) {
       let err = '未安装（或未配置环境变量）'
       callback(err)
     }
-  }, false)
+  })
 }
 
 export {
   execute,
+  executeWithFoundationPath,
   checkPath,
   currentBranch,
   getArtisanCommands,

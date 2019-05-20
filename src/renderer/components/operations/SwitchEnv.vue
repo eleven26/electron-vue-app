@@ -27,7 +27,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import { Notification } from 'element-ui'
-  import { checkPath, execute } from '../../commands'
+  import {checkPath, executeWithFoundationPath} from '../../commands'
   import { resolveBinFilePath } from '../../utils'
 
   export default {
@@ -68,7 +68,7 @@
         this.$store.dispatch('changeEnv', env)
 
         this.loading = true
-        execute(this.command(), () => this.success())
+        executeWithFoundationPath(this.command(), () => this.success())
       },
       // 切换 env 的命令
       command () {

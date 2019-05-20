@@ -54,6 +54,10 @@ function resolveModulePaths () {
  * @returns {string}
  */
 function resolveBinFilePath (file) {
+  if (process.argv.indexOf('--debug') !== -1) {
+    return path.join(rootPath, '/bin/' + file)
+  }
+
   if (isWin()) {
     return path.join(rootPath, `/resources/bin/` + file)
   } else {

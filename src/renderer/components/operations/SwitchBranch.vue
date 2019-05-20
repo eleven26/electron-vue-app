@@ -19,7 +19,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import { Notification } from 'element-ui'
-  import { checkPath, execute } from '../../commands'
+  import {checkPath, executeWithFoundationPath} from '../../commands'
   import Modules from '@/components/Modules'
   import { resolveBinFilePath, resolveModulePaths } from '../../utils'
 
@@ -70,7 +70,7 @@
       runCommand () {
         const promises = resolveModulePaths().map(obj => {
           return new Promise(resolve => {
-            execute(this.command(obj.module), () => resolve())
+            executeWithFoundationPath(this.command(obj.module), () => resolve())
           })
         })
         Promise.all(promises).finally(() => this.finish())
