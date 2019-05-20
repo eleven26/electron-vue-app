@@ -20,6 +20,7 @@
 <script>
   import { rootPath } from 'electron-root-path'
   import { execute } from '../../commands'
+  import { isWin } from '../../utils'
   const log = require('electron-log')
 
   export default {
@@ -27,7 +28,7 @@
 
     data () {
       return {
-        cmd: '',
+        cmd: 'dir',
         rootPath: rootPath,
         showDialog: false,
         output: ''
@@ -36,7 +37,11 @@
 
     methods: {
       run () {
-        execute(this.cmd, output => {
+        let cmd = this.cmd
+        if (isWin()) {
+          cmd = '@chcp 65001 > nul & cmd /d/s/c ' + this.cmd
+        }
+        execute(cmd, {encoding: 'UTF-8'}, output => {
           this.output += output
           log.info(output)
         })
