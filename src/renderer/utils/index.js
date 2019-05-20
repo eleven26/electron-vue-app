@@ -48,13 +48,22 @@ function resolveModulePaths () {
 }
 
 /**
+ * check if is in dev mode.
+ *
+ * @returns {boolean}
+ */
+function isDev () {
+  return process.mainModule.filename.indexOf('app.asar') === -1
+}
+
+/**
  * 获取 bin 文件绝对路径
  *
  * @param {string} file
  * @returns {string}
  */
 function resolveBinFilePath (file) {
-  if (process.argv.indexOf('--debug') !== -1) {
+  if (isDev()) {
     return path.join(rootPath, '/bin/' + file)
   }
 
