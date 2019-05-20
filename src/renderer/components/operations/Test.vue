@@ -11,7 +11,7 @@
       <el-button @click="clear">清空输出</el-button>
 
       <el-form-item label="命令输出" style="margin-top: 10px">
-        <el-input type="textarea" :rows="6" v-model="output"></el-input>
+        <el-input id="textarea" type="textarea" :rows="12" v-model="output"></el-input>
       </el-form-item>
     </el-form>
   </div>
@@ -41,8 +41,13 @@
         if (isWin()) {
           cmd = '@chcp 65001 > nul & cmd /d/s/c ' + this.cmd
         }
+        const textarea = document.getElementById('textarea')
         execute(cmd, {encoding: 'UTF-8'}, output => {
-          this.output += output
+          this.output += output + '\n\n'
+          // hack ??? interesting
+          setTimeout(() => {
+            textarea.scrollTop = textarea.scrollHeight
+          }, 10)
           log.info(output)
         })
       },
@@ -55,4 +60,10 @@
 
 <style scoped>
 
+</style>
+<style>
+  .el-textarea__inner {
+    background: black !important;
+    color: white !important;
+  }
 </style>
