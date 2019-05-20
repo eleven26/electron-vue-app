@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow, Menu, Tray } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -14,6 +14,8 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
+
+let tray = null
 
 function createWindow () {
   /**
@@ -51,6 +53,11 @@ function createWindow () {
       }
     ]))
   }
+
+  tray = new Tray('/Users/ruby/Code/git-helper/build/icons/20x20.png')
+  const contextMenu = Menu.buildFromTemplate([])
+  tray.setToolTip('This is my application.')
+  tray.setContextMenu(contextMenu)
 }
 
 app.on('ready', createWindow)
