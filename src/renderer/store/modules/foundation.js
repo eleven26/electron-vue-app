@@ -1,6 +1,9 @@
+import {isDev} from '../../utils'
+
 const state = {
   foundationPath: localStorage.getItem('foundation_path'),
-  env: localStorage.getItem('env')
+  env: localStorage.getItem('env'),
+  debug: isDev()
 }
 
 const mutations = {
@@ -18,6 +21,9 @@ const mutations = {
   CHANGE_ENV (state, env) {
     state.env = env
     localStorage.setItem('env', env)
+  },
+  CHANGE_DEBUG (state, debug) {
+    state.debug = debug
   }
 }
 
@@ -27,6 +33,9 @@ const actions = {
   },
   changeEnv ({ commit }, env) {
     commit('CHANGE_ENV', env)
+  },
+  changeDebug ({ commit }, debug) {
+    commit('CHANGE_DEBUG', debug)
   }
 }
 
@@ -36,6 +45,9 @@ const getters = {
   },
   env () {
     return state.env
+  },
+  debug () {
+    return state.debug
   }
 }
 

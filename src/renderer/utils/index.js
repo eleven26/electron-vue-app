@@ -76,6 +76,7 @@ function resolveBinFilePath (file) {
 
 export {
   isWin,
+  isDev,
   foundationPath,
   resolveModulePaths,
   resolveBinFilePath

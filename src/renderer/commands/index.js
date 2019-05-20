@@ -3,6 +3,7 @@ import { foundationPath, resolveBinFilePath } from '../utils'
 const exec = require('child_process').exec
 const log = require('electron-log')
 // const spawn = require('child_process').spawn
+const store = require('../store').default
 
 /**
  * 执行命令
@@ -15,6 +16,21 @@ function execute (command, options = null, callback = null) {
   if (typeof options === 'function') {
     callback = options
     options = null
+  }
+
+  // console.log when in debug mode
+  if (store.getters.debug) {
+    let content = {}
+    console.table(Object.assign(content, {
+      func: 'execute',
+      command,
+      options,
+      ...{
+        foundationPath: store.getters.foundationPath,
+        env: store.getters.env,
+        debug: store.getters.debug
+      }
+    }))
   }
 
   let cb = () => {
@@ -53,6 +69,20 @@ function executeWithFoundationPath (command, callback) {
   let cb = path => {
     if (path) path = path.trim()
     let postfix = `--foundation_path=${path}`
+
+    // console.log when in debug mode
+    if (store.getters.debug) {
+      let content = {}
+      console.table(Object.assign(content, {
+        func: 'executeWithFoundationPath',
+        command: `${command} ${postfix}`,
+        ...{
+          foundationPath: store.getters.foundationPath,
+          env: store.getters.env,
+          debug: store.getters.debug
+        }
+      }))
+    }
 
     exec(`${command} ${postfix}`, (error, stdout, stderr) => {
       if (error) {
@@ -101,6 +131,21 @@ function getArtisanCommands () {
 function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
+
+    // console.log when in debug mode
+    if (store.getters.debug) {
+      let content = {}
+      console.table(Object.assign(content, {
+        func: 'checkPath',
+        command: `git config --get remote.origin.url`,
+        cwd: path,
+        ...{
+          foundationPath: store.getters.foundationPath,
+          env: store.getters.env,
+          debug: store.getters.debug
+        }
+      }))
+    }
 
     exec(`git config --get remote.origin.url`, { cwd: path }, (error, stdout, stderr) => {
       if (!stdout || stdout.indexOf('Foundation.git') === -1) {

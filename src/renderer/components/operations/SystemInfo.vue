@@ -15,6 +15,8 @@
 
 <script>
   import * as commands from '../../commands'
+  const { remote } = require('electron')
+  const currentWindow = remote.getCurrentWindow()
 
   export default {
     name: 'SystemInfo',
@@ -37,6 +39,14 @@
         // map multiple combinations to the same callback
         Mousetrap.bind(['command+t', 'ctrl+t'], () => {
           this.$router.push({ name: 'test' })
+          // return false to prevent default browser behavior
+          // and stop event from bubbling
+          return false
+        })
+
+        // const focussedWindow = BrowserWindow.getFocusedWindow()
+        Mousetrap.bind(['command+i', 'ctrl+i'], () => {
+          currentWindow.webContents.openDevTools()
           // return false to prevent default browser behavior
           // and stop event from bubbling
           return false
