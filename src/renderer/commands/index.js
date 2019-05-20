@@ -87,7 +87,7 @@ function executeWithFoundationPath (command, callback) {
 function getArtisanCommands () {
   return new Promise(resolve => {
     const artisanPath = resolveBinFilePath('artisan.php')
-    execute(`php ${artisanPath}`, output => {
+    executeWithFoundationPath(`php ${artisanPath}`, output => {
       resolve(output)
     })
   })
