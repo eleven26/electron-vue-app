@@ -87,7 +87,7 @@
       },
       command () {
         const binFile = resolveBinFilePath('api_blame.php')
-        return `php ${binFile} --url=${this.url}`
+        return `php ${binFile} --url="${this.url}"`
       },
       finish (result) {
         try {
