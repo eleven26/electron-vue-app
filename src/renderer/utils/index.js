@@ -1,4 +1,5 @@
 import { rootPath } from 'electron-root-path'
+const store = require('../store').default
 const path = require('path')
 
 /**
@@ -74,10 +75,34 @@ function resolveBinFilePath (file) {
   }
 }
 
+/**
+ * Get current state.
+ *
+ * @returns {{foundationPath: *, env: *, debug: *}}
+ */
+function currentState () {
+  return {
+    foundationPath: store.getters.foundationPath,
+    env: store.getters.env,
+    debug: store.getters.debug
+  }
+}
+
+/**
+ * Check if is debug mode
+ *
+ * @returns {boolean}
+ */
+function isDebug () {
+  return store.getters.debug
+}
+
 export {
   isWin,
   isDev,
   foundationPath,
   resolveModulePaths,
-  resolveBinFilePath
+  resolveBinFilePath,
+  currentState,
+  isDebug
 }

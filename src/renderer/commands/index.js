@@ -1,9 +1,7 @@
 import { Notification } from 'element-ui'
-import { foundationPath, resolveBinFilePath } from '../utils'
+import {currentState, foundationPath, isDebug, resolveBinFilePath} from '../utils'
 const exec = require('child_process').exec
-const log = require('electron-log')
-// const spawn = require('child_process').spawn
-const store = require('../store').default
+// const log = require('electron-log')
 
 /**
  * 执行命令
@@ -18,28 +16,28 @@ function execute (command, options = null, callback = null) {
     options = null
   }
 
-  // console.log when in debug mode
-  if (store.getters.debug) {
-    let content = {}
-    console.table(Object.assign(content, {
-      func: 'execute',
-      command,
-      options,
-      ...{
-        foundationPath: store.getters.foundationPath,
-        env: store.getters.env,
-        debug: store.getters.debug
-      }
-    }))
-  }
-
   let cb = () => {
     exec(`${command}`, options || {}, (error, stdout, stderr) => {
+      if (isDebug()) {
+        console.groupCollapsed(command)
+        console.table({
+          func: execute.name,
+          command,
+          options,
+          error,
+          stdout,
+          stderr,
+          ...currentState()
+        })
+        console.groupEnd()
+      }
+
       if (error) {
         // log.error(error)
         if (!stdout) {
           Notification.error({
-            message: error
+            message: error,
+            position: 'bottom-right'
           })
         }
       }
@@ -47,7 +45,8 @@ function execute (command, options = null, callback = null) {
         // log.error(stderr)
         if (!stdout) {
           Notification.error({
-            message: error
+            message: error,
+            position: 'bottom-right'
           })
         }
       }
@@ -70,26 +69,28 @@ function executeWithFoundationPath (command, callback) {
     if (path) path = path.trim()
     let postfix = `--foundation_path=${path}`
 
-    // console.log when in debug mode
-    if (store.getters.debug) {
-      let content = {}
-      console.table(Object.assign(content, {
-        func: 'executeWithFoundationPath',
-        command: `${command} ${postfix}`,
-        ...{
-          foundationPath: store.getters.foundationPath,
-          env: store.getters.env,
-          debug: store.getters.debug
-        }
-      }))
-    }
+    command = `${command} ${postfix}`
+    exec(command, (error, stdout, stderr) => {
+      // Log context when in debug mode.
+      if (isDebug()) {
+        console.groupCollapsed(command)
+        console.table({
+          func: executeWithFoundationPath.name,
+          command,
+          error,
+          stdout,
+          stderr,
+          ...currentState()
+        })
+        console.groupEnd()
+      }
 
-    exec(`${command} ${postfix}`, (error, stdout, stderr) => {
       if (error) {
         // log.error(error)
         if (!stdout) {
           Notification.error({
-            message: error
+            message: error,
+            position: 'bottom-right'
           })
         }
       }
@@ -97,7 +98,8 @@ function executeWithFoundationPath (command, callback) {
         // log.error(stderr)
         if (!stdout) {
           Notification.error({
-            message: error
+            message: error,
+            position: 'bottom-right'
           })
         }
       }
@@ -132,26 +134,23 @@ function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
 
-    // console.log when in debug mode
-    if (store.getters.debug) {
-      let content = {}
-      console.table(Object.assign(content, {
-        func: 'checkPath',
-        command: `git config --get remote.origin.url`,
-        cwd: path,
-        ...{
-          foundationPath: store.getters.foundationPath,
-          env: store.getters.env,
-          debug: store.getters.debug
-        }
-      }))
-    }
+    let command = `git config --get remote.origin.url`
+    exec(command, { cwd: path }, (error, stdout, stderr) => {
+      if (isDebug()) {
+        console.groupCollapsed(command)
+        console.table({
+          func: checkPath.name,
+          command,
+          cwd: path,
+          error,
+          stdout,
+          stderr,
+          ...currentState()
+        })
+        console.groupEnd()
+      }
 
-    exec(`git config --get remote.origin.url`, { cwd: path }, (error, stdout, stderr) => {
       if (!stdout || stdout.indexOf('Foundation.git') === -1) {
-        log.error(error)
-        log.info(stdout)
-        log.error(stderr)
         if (throwErr) {
           Notification.error({
             message: `Foundation 路径配置不正确: ${path}`,
