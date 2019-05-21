@@ -2,6 +2,7 @@ import { Notification } from 'element-ui'
 import {currentState, foundationPath, isDebug, resolveBinFilePath} from '../utils'
 const exec = require('child_process').exec
 // const log = require('electron-log')
+const vagrantPrefix = 'cd /Users/ruby/Homestead && vagrant ssh -- -t '
 
 /**
  * 执行命令
@@ -17,7 +18,7 @@ function execute (command, options = null, callback = null) {
   }
 
   let cb = () => {
-    exec(`${command}`, options || {}, (error, stdout, stderr) => {
+    exec(`${vagrantPrefix} '${command}'`, options || {}, (error, stdout, stderr) => {
       if (isDebug()) {
         console.groupCollapsed(command)
         console.table({
@@ -69,7 +70,7 @@ function executeWithFoundationPath (command, callback) {
     if (path) path = path.trim()
     let postfix = `--foundation_path=${path}`
 
-    command = `${command} ${postfix}`
+    command = `${vagrantPrefix} '${command} ${postfix}'`
     exec(command, (error, stdout, stderr) => {
       // Log context when in debug mode.
       if (isDebug()) {
@@ -119,6 +120,7 @@ function executeWithFoundationPath (command, callback) {
 function getArtisanCommands () {
   return new Promise(resolve => {
     const artisanPath = resolveBinFilePath('artisan.php')
+
     executeWithFoundationPath(`php ${artisanPath}`, output => {
       resolve(output)
     })
@@ -134,8 +136,9 @@ function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
 
-    let command = `git config --get remote.origin.url`
-    exec(command, { cwd: path }, (error, stdout, stderr) => {
+    console.log(path)
+    let command = `${vagrantPrefix} 'cd ${path} && git config --get remote.origin.url'`
+    exec(command, (error, stdout, stderr) => {
       if (isDebug()) {
         console.groupCollapsed(command)
         console.table({
@@ -172,7 +175,7 @@ function checkPath (throwErr = true) {
  */
 function currentBranch (path) {
   return new Promise(resolve => {
-    execute(`git status -b -u no`, { cwd: path }, output => {
+    execute(`cd ${path} && git status -b -u no`, output => {
       resolve(output.split('\n').shift().split(' ').pop())
     })
   })
