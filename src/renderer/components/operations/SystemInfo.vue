@@ -46,6 +46,8 @@
 
         // const focussedWindow = BrowserWindow.getFocusedWindow()
         Mousetrap.bind(['command+i', 'ctrl+i'], () => {
+          // 打开 dev-tools 的时候同时设置为调试模式
+          this.$store.dispatch('changeDebug', true)
           currentWindow.webContents.openDevTools()
           // return false to prevent default browser behavior
           // and stop event from bubbling
