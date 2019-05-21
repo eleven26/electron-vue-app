@@ -62,6 +62,7 @@
     "element-ui": "^2.8.2",
     "fix-path": "^2.1.0",
     "mousetrap": "^1.6.3",
+    "ssh2": "^0.8.4",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
