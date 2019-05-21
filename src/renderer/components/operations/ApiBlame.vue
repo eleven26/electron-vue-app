@@ -39,7 +39,7 @@
 <script>
   import { Notification } from 'element-ui'
   import { resolveBinFilePath } from '../../utils'
-  import { checkPath, execute } from '../../commands'
+  import {checkPath, executeWithFoundationPath} from '../../commands'
 
   export default {
     name: 'ApiBlame',
@@ -82,7 +82,7 @@
         this.loading = true
         this.resolveParams()
         checkPath().then(() => {
-          execute(this.command(), output => this.finish(output))
+          executeWithFoundationPath(this.command(), output => this.finish(output))
         })
       },
       command () {
