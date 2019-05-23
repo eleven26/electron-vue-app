@@ -2,7 +2,7 @@
   <el-row style="margin-top: 60px">
     <el-col :span="14" :offset="4">
       <el-card shadow="never">
-        <template slot="header">系统信息(0.0.1)</template>
+        <template slot="header">系统信息(1.0.0)</template>
         <el-form label-width="150px">
           <el-form-item label="PHP 版本">{{ php_version }}</el-form-item>
           <el-form-item label="swoole 版本">{{ swoole_version }}</el-form-item>
