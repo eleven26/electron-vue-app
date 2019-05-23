@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const host = 'http://localhost:9500'
+const host = 'http://192.168.10.10:9304'
 const commandUri = '/index.php/command'
 
 function exec (command, options = null, callback = null) {
