@@ -146,8 +146,6 @@
 .modules-table tr td, .modules-table tr th {
     padding: 2px 0;
 }
-</style>
-<style>
 .el-form-item__label, .el-form-item__content {
     line-height: 22px !important;
 }
