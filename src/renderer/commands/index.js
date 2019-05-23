@@ -1,10 +1,7 @@
 import { Notification } from 'element-ui'
 import {currentState, foundationPath, isDebug, resolveBinFilePath} from '../utils'
-// const exec = require('child_process').exec
 const exec = require('../utils/request').exec
 // const log = require('electron-log')
-// const vagrantPrefix = 'cd /Users/ruby/Homestead && vagrant ssh -- -t '
-const vagrantPrefix = ''
 
 /**
  * 执行命令
@@ -20,7 +17,7 @@ function execute (command, options = null, callback = null) {
   }
 
   let cb = () => {
-    exec(`${vagrantPrefix} ${command}`, options || {}, (error, stdout, stderr) => {
+    exec(`${command}`, options || {}, (error, stdout, stderr) => {
       if (isDebug()) {
         console.groupCollapsed(command)
         console.table({
@@ -72,7 +69,7 @@ function executeWithFoundationPath (command, callback) {
     if (path) path = path.trim()
     let postfix = `--foundation_path=${path}`
 
-    command = `${vagrantPrefix} ${command} ${postfix}`
+    command = `${command} ${postfix}`
     exec(command, (error, stdout, stderr) => {
       // Log context when in debug mode.
       if (isDebug()) {
@@ -139,7 +136,7 @@ function checkPath (throwErr = true) {
     let path = foundationPath()
 
     console.log(path)
-    let command = `${vagrantPrefix} cd ${path} && git config --get remote.origin.url`
+    let command = `cd ${path} && git config --get remote.origin.url`
     exec(command, (error, stdout, stderr) => {
       if (isDebug()) {
         console.groupCollapsed(command)
