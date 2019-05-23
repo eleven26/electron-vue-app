@@ -9,6 +9,8 @@ class Command extends CI_Controller
 
         $command = $jsonArray['command'];
 
-        echo system($command);
+        ob_start();
+        system($command);
+        ob_end_flush();
     }
 }

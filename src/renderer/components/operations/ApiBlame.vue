@@ -21,7 +21,7 @@
             <el-form-item v-show="showDetail" label-width="120px" label="method：">
                 {{ method }}
             </el-form-item>
-            <el-row v-show="params.length !== 0">
+            <el-row v-show="this.params.length > 0">
                 <el-col style="width: 120px">
                     <el-form-item label="参数：" label-width="120px"></el-form-item>
                 </el-col>
@@ -91,7 +91,7 @@
       },
       finish (result) {
         try {
-          let res = JSON.parse(result.trim())
+          let res = result
           this.developer = res.developer
           this.docs_url = res.docs_url
           this.raw_docs = res.raw_docs
@@ -126,6 +126,8 @@
                 key: pair[0],
                 value: decodeURIComponent(pair[1])
               }
+            }).filter(v => {
+              return v.key !== ''
             })
         } catch (e) {
         }

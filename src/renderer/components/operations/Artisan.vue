@@ -48,7 +48,7 @@
 
         getArtisanCommands().then(commands => {
           try {
-            this.artisanCommands = JSON.parse(commands.trim())
+            this.artisanCommands = commands
           } catch (e) {
             Notification.error({
               message: `返回数据格式错误`,

@@ -12,8 +12,6 @@ function exec (command, options = null, callback = null) {
     url: host + commandUri,
     data: { command }
   }).then(res => {
-    console.log(res)
-    console.log(res.data)
     callback(null, res.data, null)
   })
 }
