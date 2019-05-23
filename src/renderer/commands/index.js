@@ -1,6 +1,6 @@
 import { Notification } from 'element-ui'
 import {currentState, foundationPath, isDebug, resolveBinFilePath} from '../utils'
-const exec = require('../utils/request').exec
+import store from '../store'
 // const log = require('electron-log')
 
 /**
@@ -11,6 +11,8 @@ const exec = require('../utils/request').exec
  * @param {function} callback 成功回调
  */
 function execute (command, options = null, callback = null) {
+  let exec = store.getters.exec
+
   if (typeof options === 'function') {
     callback = options
     options = null
@@ -65,6 +67,8 @@ function execute (command, options = null, callback = null) {
  * @param callback
  */
 function executeWithFoundationPath (command, callback) {
+  let exec = store.getters.exec
+
   let cb = path => {
     if (path) path = path.trim()
     let postfix = `--foundation_path=${path}`
@@ -132,6 +136,8 @@ function getArtisanCommands () {
  * @returns {Promise<any>}
  */
 function checkPath (throwErr = true) {
+  let exec = store.getters.exec
+
   return new Promise(resolve => {
     let path = foundationPath()
 
