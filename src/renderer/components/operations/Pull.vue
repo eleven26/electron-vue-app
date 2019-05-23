@@ -8,6 +8,12 @@
         </div>
       </el-col>
     </el-row>
+
+    <el-form v-show="false">
+      <el-form-item label="命令输出" style="margin-top: 10px">
+        <el-input id="textarea" type="textarea" :rows="12" v-model="output"></el-input>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -22,7 +28,8 @@
     data () {
       return {
         loading: false,
-        disabled: true
+        disabled: true,
+        output: ''
       }
     },
 
@@ -40,11 +47,13 @@
 
         const promises = resolveModulePaths().map(obj => {
           return new Promise(resolve => {
-            executeWithFoundationPath(this.command(obj.module), () => resolve())
+            executeWithFoundationPath(this.command(obj.module), res => resolve(res))
           })
         })
 
-        Promise.all(promises).finally(() => this.finish())
+        Promise.all(promises, outputs => {
+          outputs.forEach(output => { this.output += output })
+        }).finally(() => this.finish())
       },
       // 拉取模块的命令
       command (module) {
@@ -64,5 +73,8 @@
 </script>
 
 <style scoped>
-
+  .el-textarea__inner {
+    background: black !important;
+    color: white !important;
+  }
 </style>
