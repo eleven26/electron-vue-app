@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow, Menu } from 'electron'
+const globalShortcut = require('electron').globalShortcut
 
 /**
  * Set `__static` path to static files in production
@@ -51,6 +52,14 @@ function createWindow () {
       }
     ]))
   }
+
+  // 绑定刷新快捷键
+  globalShortcut.register('f5', () => {
+    mainWindow.reload()
+  })
+  globalShortcut.register('CommandOrControl+R', () => {
+    mainWindow.reload()
+  })
 }
 
 app.on('ready', createWindow)
