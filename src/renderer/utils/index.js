@@ -38,6 +38,19 @@ function homesteadPath () {
 }
 
 /**
+ * vagrant 路径
+ *
+ * @returns {string}
+ */
+function vagrantPath () {
+  let path = store.getters.vagrant
+  if (path) {
+    path = path.trim()
+  }
+  return path
+}
+
+/**
  * 获取所有模块绝对路径
  */
 function resolveModulePaths () {
@@ -142,6 +155,7 @@ export {
   isDev,
   foundationPath,
   homesteadPath,
+  vagrantPath,
   resolveModulePaths,
   resolveBinFilePath,
   currentState,

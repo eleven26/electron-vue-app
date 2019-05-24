@@ -8,6 +8,13 @@
           </template>
         </el-input>
       </el-form-item>
+      <el-form-item label="vagrant 路径">
+        <el-input v-model="vagrant" disabled>
+          <template slot="append">
+            <el-button @click="changeVagrantPath">修改</el-button>
+          </template>
+        </el-input>
+      </el-form-item>
     </el-form>
 
     <el-dialog :visible.sync="dialogVisible">
@@ -19,6 +26,17 @@
       <span slot="footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog :visible.sync="dialogVisible1">
+      <el-form>
+        <el-form-item label="请输入新的路径">
+          <el-input v-model="newVagrant"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer">
+        <el-button @click="dialogVisible1 = false">取消</el-button>
+        <el-button type="primary" @click="confirm1">确定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -33,7 +51,9 @@
     data () {
       return {
         newHomesteadPath: '',
-        dialogVisible: false
+        newVagrant: '',
+        dialogVisible: false,
+        dialogVisible1: false
       }
     },
 
@@ -48,12 +68,24 @@
         this.dialogVisible = false
         this.$store.dispatch('changeHomestead', this.newHomesteadPath.trim())
         location.reload()
+      },
+      // 显示修改 Homestead 路径的对话框
+      changeVagrantPath () {
+        this.newVagrant = this.vagrant
+        this.dialogVisible1 = true
+      },
+      // 关闭修改 Homestead 路径对话框
+      confirm1 () {
+        this.dialogVisible1 = false
+        this.$store.dispatch('changeVagrant', this.newVagrant.trim())
+        location.reload()
       }
     },
 
     computed: {
       ...mapGetters([
-        'homestead'
+        'homestead',
+        'vagrant'
       ])
     }
   }
