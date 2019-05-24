@@ -124,10 +124,47 @@ function getArtisanCommands () {
   return new Promise(resolve => {
     const artisanPath = resolveBinFilePath('artisan.php')
 
+    if (isLessThanTenMinutes()) {
+      let commands = commandsIsValid()
+      if (commands) {
+        resolve(commands)
+        return
+      }
+    }
+
     executeWithFoundationPath(`php ${artisanPath}`, output => {
+      localStorage.setItem('commands', JSON.stringify(output))
+      localStorage.setItem('last_get_commands', (new Date()).toUTCString())
       resolve(output)
     })
   })
+}
+
+/**
+ * 判断上一次获取命令的时间是否在十分钟以前
+ *
+ * @returns {boolean}
+ */
+function isLessThanTenMinutes () {
+  let lastGetCommands = localStorage.getItem('last_get_commands')
+  if (!lastGetCommands) {
+    return false
+  } else {
+    lastGetCommands = new Date(lastGetCommands)
+    let time = (new Date()).getTime() - lastGetCommands.getTime()
+    return time / (1000 * 60) < 10
+  }
+}
+
+/**
+ * localStorage 存储的命令
+ * @returns {any}
+ */
+function commandsIsValid () {
+  let commands = localStorage.getItem('commands')
+  if (commands) {
+    return JSON.parse(commands)
+  }
 }
 
 /**
