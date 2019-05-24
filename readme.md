@@ -15,7 +15,6 @@
 * vagrant 添加到了环境变量
 * 虚拟机的 php 安装了 swoole 扩展
 
-
 #### 配置
 * Foundation 路径
 * Homestead 路径（因为基本所有命令在 vagrant 虚拟机执行）
