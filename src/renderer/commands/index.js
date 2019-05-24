@@ -1,5 +1,5 @@
 import { Notification } from 'element-ui'
-import {currentState, foundationPath, isDebug, resolveBinFilePath} from '../utils'
+import {currentState, foundationPath, isDebug, isLessThanTenMinutes, resolveBinFilePath} from '../utils'
 import store from '../store'
 // const log = require('electron-log')
 
@@ -124,7 +124,8 @@ function getArtisanCommands () {
   return new Promise(resolve => {
     const artisanPath = resolveBinFilePath('artisan.php')
 
-    if (isLessThanTenMinutes()) {
+    let key = 'last_get_commands'
+    if (isLessThanTenMinutes(key)) {
       let commands = commandsIsValid()
       if (commands) {
         resolve(commands)
@@ -134,26 +135,10 @@ function getArtisanCommands () {
 
     executeWithFoundationPath(`php ${artisanPath}`, output => {
       localStorage.setItem('commands', JSON.stringify(output))
-      localStorage.setItem('last_get_commands', (new Date()).toUTCString())
+      localStorage.setItem(key, (new Date()).toUTCString())
       resolve(output)
     })
   })
-}
-
-/**
- * 判断上一次获取命令的时间是否在十分钟以前
- *
- * @returns {boolean}
- */
-function isLessThanTenMinutes () {
-  let lastGetCommands = localStorage.getItem('last_get_commands')
-  if (!lastGetCommands) {
-    return false
-  } else {
-    lastGetCommands = new Date(lastGetCommands)
-    let time = (new Date()).getTime() - lastGetCommands.getTime()
-    return time / (1000 * 60) < 10
-  }
 }
 
 /**

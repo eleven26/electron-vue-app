@@ -120,6 +120,23 @@ function getUserHome () {
   return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 }
 
+/**
+ * 判断上一次获取命令的时间是否在十分钟以前
+ *
+ * @param {string} key
+ * @returns {boolean}
+ */
+function isLessThanTenMinutes (key) {
+  let lastGetCommands = localStorage.getItem(key)
+  if (!lastGetCommands) {
+    return false
+  } else {
+    lastGetCommands = new Date(lastGetCommands)
+    let time = (new Date()).getTime() - lastGetCommands.getTime()
+    return time / (1000 * 60) < 10
+  }
+}
+
 export {
   isWin,
   isDev,
@@ -129,5 +146,6 @@ export {
   resolveBinFilePath,
   currentState,
   isDebug,
-  getUserHome
+  getUserHome,
+  isLessThanTenMinutes
 }
