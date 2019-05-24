@@ -1,6 +1,6 @@
 import store from '../store'
 import {execute} from '../commands'
-import {homesteadPath} from './index'
+import {homesteadPath, isWin} from './index'
 
 // 使用  node 的 exec 执行启动 http server 的命令
 // 后续命令的执行通过 http server 执行 vagrant 虚拟机里面的命令
@@ -36,7 +36,9 @@ function restoreExec () {
 
 function vagrantPrefix () {
   let path = homesteadPath()
-  return `cd ${path} && vagrant ssh -- -t `
+  let prefix = isWin() ? '@chcp 65001 > nul & cmd /d/s/c ' : ''
+  let and = isWin() ? '&' : '&&'
+  return `${prefix}cd ${path} ${and} vagrant ssh -- -t `
 }
 
 export {
