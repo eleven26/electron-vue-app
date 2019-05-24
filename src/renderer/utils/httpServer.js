@@ -11,10 +11,13 @@ function changeExec () {
 
 function start () {
   handle(() => {
-    let preCommand = 'wget https://raw.githubusercontent.com/eleven26/git-helper/vagrant/command/swoole_server.php -O swoole_server.php'
-    execute(`${vagrantPrefix} 'cd ~ && ${preCommand} && php ~/swoole_server.php &'`, output => {
-      console.log(output)
-    })
+    startServer()
+  })
+}
+
+function startServer () {
+  execute(`${vagrantPrefix} 'php ~/swoole_server.php'`, output => {
+    console.log(output)
   })
 }
 
