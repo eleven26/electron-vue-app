@@ -16,8 +16,10 @@ function start () {
 }
 
 function startServer () {
-  execute(`${vagrantPrefix} 'php ~/swoole_server.php'`, output => {
+  execute(`${vagrantPrefix} 'php ~/bin/swoole_server.php'`, output => {
+    console.groupCollapsed('start server')
     console.log(output)
+    console.groupEnd()
   })
 }
 
