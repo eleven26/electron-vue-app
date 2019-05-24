@@ -15,6 +15,15 @@
 * vagrant 添加到了环境变量
 * 虚拟机的 php 安装了 swoole 扩展
 
+#### 安装
+* `vagrant ssh`
+* `curl http://gitlab.gzjztw.com/rubys_/bin/raw/master/install-git-helper.sh | bash`
+* swoole 扩展安装(如果没有)
+    * `curl http://gitlab.gzjztw.com/rubys_/bin/raw/master/install-swoole.sh | bash`
+* 检查安装是否成功
+    * `ls ~/bin` 查看需要的脚本是否下载成功
+    * `php -m | grep swoole` 查看 `swoole` 扩展是否安装成功
+    
 #### 配置
 * Foundation 路径
 * Homestead 路径（因为基本所有命令在 vagrant 虚拟机执行）
