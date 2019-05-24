@@ -1,6 +1,6 @@
 import store from '../store'
 import {execute} from '../commands'
-const vagrantPrefix = 'cd /Users/ruby/Homestead && vagrant ssh -- -t '
+import {homesteadPath} from './index'
 
 // 使用  node 的 exec 执行启动 http server 的命令
 // 后续命令的执行通过 http server 执行 vagrant 虚拟机里面的命令
@@ -16,7 +16,8 @@ function start () {
 }
 
 function startServer () {
-  execute(`${vagrantPrefix} 'php ~/bin/swoole_server.php'`, output => {
+  let prefix = vagrantPrefix()
+  execute(`${prefix} 'php ~/bin/swoole_server.php'`, output => {
     console.groupCollapsed('start server')
     console.log(output)
     console.groupEnd()
@@ -31,6 +32,11 @@ function handle (callback) {
 
 function restoreExec () {
   store.dispatch('changeExec', require('../utils/request').exec)
+}
+
+function vagrantPrefix () {
+  let path = homesteadPath()
+  return `cd ${path} && vagrant ssh -- -t `
 }
 
 export {

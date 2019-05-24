@@ -54,6 +54,11 @@ export default new Router({
           name: 'notice',
           path: '/notice',
           component: require('@/components/Notice').default
+        },
+        {
+          name: 'config',
+          path: '/config',
+          component: require('@/components/operations/Config').default
         }
       ]
     },

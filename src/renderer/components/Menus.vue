@@ -55,6 +55,10 @@
           name: 'api-blame'
         },
         {
+          title: '系统配置',
+          name: 'config'
+        },
+        {
           title: '注意事项',
           name: 'notice'
         }

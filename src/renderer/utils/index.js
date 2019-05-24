@@ -17,7 +17,20 @@ function isWin () {
  * @returns {string}
  */
 function foundationPath () {
-  let path = localStorage.getItem('foundation_path')
+  let path = store.getters.foundationPath
+  if (path) {
+    path = path.trim()
+  }
+  return path
+}
+
+/**
+ * Homestead 路径
+ *
+ * @returns {string}
+ */
+function homesteadPath () {
+  let path = store.getters.homestead
   if (path) {
     path = path.trim()
   }
@@ -98,12 +111,23 @@ function isDebug () {
   return store.getters.debug
 }
 
+/**
+ * 获取用户主目录
+ *
+ * @returns {string | undefined}
+ */
+function getUserHome () {
+  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
+}
+
 export {
   isWin,
   isDev,
   foundationPath,
+  homesteadPath,
   resolveModulePaths,
   resolveBinFilePath,
   currentState,
-  isDebug
+  isDebug,
+  getUserHome
 }

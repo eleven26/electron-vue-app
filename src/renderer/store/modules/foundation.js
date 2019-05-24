@@ -1,7 +1,7 @@
 import {isDev} from '../../utils'
 
 const state = {
-  foundationPath: localStorage.getItem('foundation_path'),
+  foundationPath: localStorage.getItem('foundation_path') || '/home/vagrant/Code/Foundation',
   env: localStorage.getItem('env'),
   debug: isDev()
 }
