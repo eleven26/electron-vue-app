@@ -17,7 +17,10 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix",
-    "publish": "node ./publish/publish.js"
+    "publish": "node ./publish/publish.js",
+    "serve": "pm2 start ./publish/server.js",
+    "restart": "pm2 restart server",
+    "stop": "pm2 stop server"
   },
   "build": {
     "productName": "git-helper",
