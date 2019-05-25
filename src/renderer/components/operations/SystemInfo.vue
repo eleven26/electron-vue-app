@@ -8,6 +8,7 @@
           <el-form-item label="swoole 版本">{{ swoole_version }}</el-form-item>
           <el-form-item label="Git 版本">{{ git_version }}</el-form-item>
           <el-form-item label="Vagrant 版本">{{ vagrant_version }}</el-form-item>
+          <el-form-item label="swoole server">{{ swoole_server_status }}</el-form-item>
         </el-form>
       </el-card>
     </el-col>
@@ -18,17 +19,20 @@
   import * as commands from '../../commands'
   const { remote } = require('electron')
   const currentWindow = remote.getCurrentWindow()
+  const Telnet = require('telnet-client')
 
   export default {
     name: 'SystemInfo',
 
     data () {
+      this.swooleServerStatus()
       return {
         version: require('@/../../package.json').version,
         php_version: this.phpVersion(),
         swoole_version: this.swooleVersion(),
         git_version: this.gitVersion(),
-        vagrant_version: this.vagrantVersion()
+        vagrant_version: this.vagrantVersion(),
+        swoole_server_status: ''
       }
     },
 
@@ -80,6 +84,29 @@
         commands.vagrantVersion(output => {
           this.vagrant_version = output
         })
+      },
+      swooleServerStatus () {
+        let connection = new Telnet()
+
+        let params = {
+          host: '192.168.10.10',
+          port: 9304,
+          timeout: 100
+        }
+
+        try {
+          connection.connect(params).then(() => {
+            this.swoole_server_status = 'on'
+          }).catch(() => {
+            this.swoole_server_status = 'off'
+          })
+        } catch (error) {
+          // handle the throw (timeout)
+          this.swoole_server_status = 'off'
+          console.groupCollapsed('telnet swoole server')
+          console.log(error)
+          console.groupEnd()
+        }
       }
     }
   }
