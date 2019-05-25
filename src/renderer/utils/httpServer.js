@@ -40,5 +40,6 @@ function vagrantPrefix () {
 }
 
 export {
-  start
+  start,
+  handle
 }

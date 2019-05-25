@@ -4,14 +4,14 @@
       <el-form-item label="Homestead 路径">
         <el-input v-model="homestead" disabled>
           <template slot="append">
-            <el-button @click="changeHomesteadPath">修改</el-button>
+            <el-button @click="change(homestead, 'changeHomestead')">修改</el-button>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item label="vagrant 路径">
         <el-input v-model="vagrant" disabled>
           <template slot="append">
-            <el-button @click="changeVagrantPath">修改</el-button>
+            <el-button @click="change(vagrant, 'changeVagrant')">修改</el-button>
           </template>
         </el-input>
       </el-form-item>
@@ -19,24 +19,13 @@
 
     <el-dialog :visible.sync="dialogVisible">
       <el-form>
-        <el-form-item label="请输入新的路径">
-          <el-input v-model="newHomesteadPath"></el-input>
+        <el-form-item label="请输入新的值">
+          <el-input v-model="newValue"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button @click="cancel">取消</el-button>
         <el-button type="primary" @click="confirm">确定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog :visible.sync="dialogVisible1">
-      <el-form>
-        <el-form-item label="请输入新的路径">
-          <el-input v-model="newVagrant"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer">
-        <el-button @click="dialogVisible1 = false">取消</el-button>
-        <el-button type="primary" @click="confirm1">确定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -50,35 +39,28 @@
 
     data () {
       return {
-        newHomesteadPath: '',
-        newVagrant: '',
-        dialogVisible: false,
-        dialogVisible1: false
+        action: '',
+        newValue: '',
+        dialogVisible: false
       }
     },
 
     methods: {
-      // 显示修改 Homestead 路径的对话框
-      changeHomesteadPath () {
-        this.newHomesteadPath = this.homestead
+      change (value, action) {
+        this.newValue = value
+        this.action = action
         this.dialogVisible = true
       },
       // 关闭修改 Homestead 路径对话框
       confirm () {
         this.dialogVisible = false
-        this.$store.dispatch('changeHomestead', this.newHomesteadPath.trim())
+        this.$store.dispatch(this.action, this.newValue.trim())
         location.reload()
       },
-      // 显示修改 Homestead 路径的对话框
-      changeVagrantPath () {
-        this.newVagrant = this.vagrant
-        this.dialogVisible1 = true
-      },
-      // 关闭修改 Homestead 路径对话框
-      confirm1 () {
-        this.dialogVisible1 = false
-        this.$store.dispatch('changeVagrant', this.newVagrant.trim())
-        location.reload()
+      cancel () {
+        this.dialogVisible = false
+        this.newValue = ''
+        this.action = ''
       }
     },
 

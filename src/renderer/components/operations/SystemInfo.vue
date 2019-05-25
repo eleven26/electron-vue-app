@@ -7,6 +7,7 @@
           <el-form-item label="PHP 版本">{{ php_version }}</el-form-item>
           <el-form-item label="swoole 版本">{{ swoole_version }}</el-form-item>
           <el-form-item label="Git 版本">{{ git_version }}</el-form-item>
+          <el-form-item label="Vagrant 版本">{{ vagrant_version }}</el-form-item>
         </el-form>
       </el-card>
     </el-col>
@@ -25,7 +26,8 @@
       return {
         php_version: this.phpVersion(),
         swoole_version: this.swooleVersion(),
-        git_version: this.gitVersion()
+        git_version: this.gitVersion(),
+        vagrant_version: this.vagrantVersion()
       }
     },
 
@@ -70,6 +72,12 @@
       gitVersion () {
         commands.gitVersion(output => {
           this.git_version = output
+        })
+      },
+      // 获取 git 版本
+      vagrantVersion () {
+        commands.vagrantVersion(output => {
+          this.vagrant_version = output
         })
       }
     }

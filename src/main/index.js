@@ -1,7 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, Menu } from 'electron'
-const globalShortcut = require('electron').globalShortcut
+import { app, BrowserWindow, Menu, MenuItem } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -53,13 +52,13 @@ function createWindow () {
     ]))
   }
 
-  // 绑定刷新快捷键
-  globalShortcut.register('f5', () => {
-    mainWindow.reload()
-  })
-  globalShortcut.register('CommandOrControl+R', () => {
-    mainWindow.reload()
-  })
+  // 快捷键刷新
+  const menu = new Menu()
+  menu.append(new MenuItem({
+    label: 'Refresh',
+    accelerator: process.platform === 'darwin' ? 'Cmd+R' : 'F5',
+    click: () => mainWindow.reload()
+  }))
 }
 
 app.on('ready', createWindow)

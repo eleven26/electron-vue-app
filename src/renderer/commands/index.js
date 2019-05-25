@@ -1,6 +1,7 @@
 import { Notification } from 'element-ui'
 import {currentState, foundationPath, isDebug, isLessThanTenMinutes, resolveBinFilePath} from '../utils'
 import store from '../store'
+import {handle} from '../utils/httpServer'
 // const log = require('electron-log')
 
 /**
@@ -257,6 +258,25 @@ function gitVersion (callback) {
   })
 }
 
+/**
+ * 获取 vagrant 版本
+ *
+ * @param {function} callback
+ */
+function vagrantVersion (callback) {
+  handle(() => {
+    execute(`vagrant version`, output => {
+      let res = output.match(/(\d+\.\d+\.\d+)/)
+      if (res !== null) {
+        callback(res[1])
+      } else {
+        let err = '未安装（或未配置环境变量）'
+        callback(err)
+      }
+    })
+  })
+}
+
 export {
   execute,
   executeWithFoundationPath,
@@ -265,5 +285,6 @@ export {
   getArtisanCommands,
   phpVersion,
   swooleVersion,
-  gitVersion
+  gitVersion,
+  vagrantVersion
 }
