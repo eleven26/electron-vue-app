@@ -11,18 +11,22 @@
 * 辅助开发人员快速进行某些重复性操作
 
 #### 系统要求
-* Homestead 虚拟机
+* VirtualBox
+* Vagrant
+* Homestead
 * vagrant 添加到了环境变量
 * 虚拟机的 php 安装了 swoole 扩展
 
 #### 安装
+* [git-helper下载](http://192.168.2.154:5000)，根据操作系统选择对应的版本下载
 * `vagrant ssh`
-* `curl http://gitlab.gzjztw.com/rubys_/bin/raw/master/install-git-helper.sh | bash`
-* swoole 扩展安装(如果没有)
+* 虚拟机 swoole 扩展安装(如果没有)
     * `curl http://gitlab.gzjztw.com/rubys_/bin/raw/master/install-swoole.sh | bash`
+* 虚拟机 swoole http server 启动
+    * `curl http://gitlab.gzjztw.com/rubys_/bin/raw/master/install-git-helper.sh | bash`
 * 检查环境配置是否成功
-    * `ls ~/bin` 查看需要的脚本是否下载成功
     * `php -m | grep swoole` 查看 `swoole` 扩展是否安装成功
+    * `ls ~/bin` 查看需要的脚本是否下载成功
     
 #### 配置
 * Foundation 路径
@@ -41,3 +45,4 @@
 
 #### FAQ
 * 为什么某一个模块的代码没有切换到某一个分支？一般是代码冲突了，需要自行解决冲突
+
