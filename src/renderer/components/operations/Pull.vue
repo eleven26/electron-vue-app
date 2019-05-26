@@ -19,8 +19,9 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import { checkPath, executeWithFoundationPath } from '../../commands'
-  import { resolveBinFilePath, resolveModulePaths } from '../../utils'
+  import { checkPath, executeWithFoundationPath } from '@/commands/index'
+  import * as commands from '@/commands/commands'
+  import {resolveModulePaths} from '@/utils'
 
   export default {
     name: 'Pull',
@@ -47,18 +48,13 @@
 
         const promises = resolveModulePaths().map(obj => {
           return new Promise(resolve => {
-            executeWithFoundationPath(this.command(obj.module), res => resolve(res))
+            executeWithFoundationPath(commands.pull(obj.module), res => resolve(res))
           })
         })
 
         Promise.all(promises, outputs => {
           outputs.forEach(output => { this.output += output })
         }).finally(() => this.finish())
-      },
-      // 拉取模块的命令
-      command (module) {
-        const binFile = resolveBinFilePath('pull.php')
-        return `php ${binFile} --module=${module}`
       },
       // 拉取完毕的回调
       finish () {

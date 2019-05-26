@@ -38,8 +38,8 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import { resolveBinFilePath } from '../../utils'
   import {checkPath, executeWithFoundationPath} from '../../commands'
+  import {apiBlame} from '@/commands/commands'
 
   export default {
     name: 'ApiBlame',
@@ -82,12 +82,8 @@
         this.loading = true
         this.resolveParams()
         checkPath().then(() => {
-          executeWithFoundationPath(this.command(), output => this.finish(output))
+          executeWithFoundationPath(apiBlame(this.url), output => this.finish(output))
         })
-      },
-      command () {
-        const binFile = resolveBinFilePath('api_blame.php')
-        return `php ${binFile} --url="${this.url}"`
       },
       finish (result) {
         try {

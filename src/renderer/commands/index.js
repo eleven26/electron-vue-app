@@ -1,7 +1,8 @@
 import { Notification } from 'element-ui'
-import {currentState, foundationPath, isDebug, isLessThanTenMinutes, resolveBinFilePath} from '../utils'
+import {currentState, foundationPath, isDebug, isLessThanTenMinutes, isWin} from '../utils'
 import store from '../store'
-import {handle} from '../utils/httpServer'
+// import {handle} from '../utils/httpServer'
+import * as commands from '@/commands/commands'
 // const log = require('electron-log')
 
 /**
@@ -74,6 +75,7 @@ function executeWithFoundationPath (command, callback) {
     if (path) path = path.trim()
     let postfix = `--foundation_path=${path}`
 
+    console.log(`${command} ${postfix}`)
     command = `${command} ${postfix}`
     exec(command, (error, stdout, stderr) => {
       // Log context when in debug mode.
@@ -123,8 +125,6 @@ function executeWithFoundationPath (command, callback) {
  */
 function getArtisanCommands () {
   return new Promise(resolve => {
-    const artisanPath = resolveBinFilePath('artisan.php')
-
     let key = 'last_get_commands'
     if (isLessThanTenMinutes(key)) {
       let commands = commandsIsValid()
@@ -134,7 +134,7 @@ function getArtisanCommands () {
       }
     }
 
-    executeWithFoundationPath(`php ${artisanPath}`, output => {
+    executeWithFoundationPath(commands.artisan(), output => {
       localStorage.setItem('commands', JSON.stringify(output))
       localStorage.setItem(key, (new Date()).toUTCString())
       resolve(output)
@@ -165,7 +165,7 @@ function checkPath (throwErr = true) {
     let path = foundationPath()
 
     console.log(path)
-    let command = `cd ${path} && git config --get remote.origin.url`
+    let command = commands.remote(path)
     exec(command, (error, stdout, stderr) => {
       if (isDebug()) {
         console.groupCollapsed(command)
@@ -203,7 +203,7 @@ function checkPath (throwErr = true) {
  */
 function currentBranch (path) {
   return new Promise(resolve => {
-    execute(`cd ${path} && git status -b -u no`, output => {
+    execute(commands.current(path), output => {
       resolve(output.split('\n').shift().split(' ').pop())
     })
   })
@@ -215,7 +215,7 @@ function currentBranch (path) {
  * @param {function} callback
  */
 function phpVersion (callback) {
-  execute(`php -v`, output => {
+  execute(commands.phpVersion(), output => {
     if (output.indexOf('PHP') === 0) {
       callback(output.match(/PHP (\d+\.\d+\.\d+)/)[1])
     } else {
@@ -231,11 +231,11 @@ function phpVersion (callback) {
  * @param {function} callback
  */
 function swooleVersion (callback) {
-  execute(`php -r "echo phpversion('swoole');"`, output => {
+  execute(commands.swooleVersion(), output => {
     if (Number.isInteger(Number(output[0]))) {
       callback(output || '未安装')
     } else {
-      let err = '未安装（windows 不支持）'
+      let err = isWin() ? 'windows 不支持' : '未安装'
       callback(err)
     }
   })
@@ -247,7 +247,7 @@ function swooleVersion (callback) {
  * @param {function} callback
  */
 function gitVersion (callback) {
-  execute(`git version`, output => {
+  execute(commands.gitVersion(), output => {
     let res = output.match(/(\d+\.\d+\.\d+)/)
     if (res !== null) {
       callback(res[1])
@@ -264,16 +264,16 @@ function gitVersion (callback) {
  * @param {function} callback
  */
 function vagrantVersion (callback) {
-  handle(() => {
-    execute(`vagrant version`, output => {
-      let res = output.match(/(\d+\.\d+\.\d+)/)
-      if (res !== null) {
-        callback(res[1])
-      } else {
-        let err = '未安装（或未配置环境变量）'
-        callback(err)
-      }
-    })
+  execute(commands.vagrantVersion(), output => {
+    let res = output.match(/(\d+\.\d+\.\d+)/)
+    if (res !== null) {
+      localStorage.setItem('vagrant_version', res[0])
+      localStorage.setItem('last_get_vagrant', (new Date()).toUTCString())
+      callback(res[0])
+    } else {
+      let err = '未安装（或未配置环境变量）'
+      callback(err)
+    }
   })
 }
 

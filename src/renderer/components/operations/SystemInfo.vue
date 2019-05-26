@@ -8,7 +8,7 @@
           <el-form-item label="swoole 版本">{{ swoole_version }}</el-form-item>
           <el-form-item label="Git 版本">{{ git_version }}</el-form-item>
           <el-form-item label="Vagrant 版本">{{ vagrant_version }}</el-form-item>
-          <el-form-item label="swoole server">{{ swoole_server_status }}</el-form-item>
+<!--          <el-form-item label="swoole server">{{ swoole_server_status }}</el-form-item>-->
         </el-form>
       </el-card>
     </el-col>
@@ -17,6 +17,7 @@
 
 <script>
   import * as commands from '../../commands'
+  import {isLessThanTenMinutes} from '@/utils'
   const { remote } = require('electron')
   const currentWindow = remote.getCurrentWindow()
   const Telnet = require('telnet-client')
@@ -25,13 +26,13 @@
     name: 'SystemInfo',
 
     data () {
-      this.swooleServerStatus()
+      this.vagrantVersion()
       return {
         version: require('@/../../package.json').version,
         php_version: this.phpVersion(),
         swoole_version: this.swooleVersion(),
         git_version: this.gitVersion(),
-        vagrant_version: this.vagrantVersion(),
+        vagrant_version: '',
         swoole_server_status: ''
       }
     },
@@ -81,9 +82,17 @@
       },
       // 获取 git 版本
       vagrantVersion () {
-        commands.vagrantVersion(output => {
-          this.vagrant_version = output
-        })
+        let vagrantVersion = localStorage.getItem('vagrant_version')
+        if (vagrantVersion && isLessThanTenMinutes('last_get_vagrant')) {
+          // 虽然不知道为什么，但是就是这样才可以渲染出来
+          setTimeout(() => {
+            this.vagrant_version = vagrantVersion
+          }, 100)
+        } else {
+          commands.vagrantVersion(output => {
+            this.vagrant_version = output
+          })
+        }
       },
       swooleServerStatus () {
         let connection = new Telnet()

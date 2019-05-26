@@ -12,3 +12,4 @@ thumbs.db
 bin/
 resources
 .env
+php*

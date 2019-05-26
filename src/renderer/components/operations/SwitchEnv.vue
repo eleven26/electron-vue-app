@@ -28,7 +28,7 @@
   import { mapGetters } from 'vuex'
   import { Notification } from 'element-ui'
   import {checkPath, executeWithFoundationPath} from '../../commands'
-  import { resolveBinFilePath } from '../../utils'
+  import {switchEnv} from '@/commands/commands'
 
   export default {
     name: 'SwitchEnv',
@@ -68,12 +68,7 @@
         this.$store.dispatch('changeEnv', env)
 
         this.loading = true
-        executeWithFoundationPath(this.command(), () => this.success())
-      },
-      // 切换 env 的命令
-      command () {
-        const binFile = resolveBinFilePath('switch_env.php')
-        return `php ${binFile} ${this.env}`
+        executeWithFoundationPath(switchEnv(this.env), () => this.success())
       },
       // 切换成功的回调
       success () {

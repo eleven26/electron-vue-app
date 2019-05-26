@@ -1,4 +1,4 @@
-// import { rootPath } from 'electron-root-path'
+import { rootPath } from 'electron-root-path'
 const store = require('../store').default
 // const path = require('path')
 
@@ -93,13 +93,32 @@ function resolveBinFilePath (file) {
   // if (isDev()) {
   //   return path.join(rootPath, '/bin/' + file)
   // }
-  return `~/bin/` + file
+  return getUserHome() + `/bin/` + file
 
   // if (isWin()) {
   //   return path.join(rootPath, `/resources/bin/` + file)
   // } else {
   //   return path.join(rootPath, `/Contents/Resources/bin/` + file)
   // }
+}
+
+/**
+ * 获取 php 可执行文件路径
+ *
+ * @returns {string}
+ */
+function php () {
+  let path = require('path')
+  let php
+  if (isWin()) {
+    php = isDev() ? path.join(rootPath, '/php72/php.exe ') : path.join(rootPath, `/resources/php72/php.exe `)
+    php = php.replace(/\\/g, '/')
+    php = '@chcp 65001 > nul & cmd /d/s/c ' + php
+  } else {
+    php = 'php '
+  }
+  console.log(php)
+  return php
 }
 
 /**
@@ -130,7 +149,7 @@ function isDebug () {
  * @returns {string | undefined}
  */
 function getUserHome () {
-  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
+  return (process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']).replace(/\\/g, '/')
 }
 
 /**
@@ -161,5 +180,6 @@ export {
   currentState,
   isDebug,
   getUserHome,
-  isLessThanTenMinutes
+  isLessThanTenMinutes,
+  php
 }

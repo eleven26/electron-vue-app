@@ -20,8 +20,9 @@
   import { mapGetters } from 'vuex'
   import { Notification } from 'element-ui'
   import {checkPath, executeWithFoundationPath} from '../../commands'
+  import * as commands from '@/commands/commands'
   import Modules from '@/components/Modules'
-  import { resolveBinFilePath, resolveModulePaths } from '../../utils'
+  import { resolveModulePaths } from '../../utils'
 
   export default {
     name: 'SwitchBranch',
@@ -70,7 +71,7 @@
       runCommand () {
         const promises = resolveModulePaths().map(obj => {
           return new Promise(resolve => {
-            executeWithFoundationPath(this.command(obj.module), () => resolve())
+            executeWithFoundationPath(commands.checkout(this.checkout_branch, obj.module), () => resolve())
           })
         })
         Promise.all(promises).finally(() => this.finish())
@@ -89,11 +90,6 @@
         })
         this.$refs.modules.getModulesCurrentBranch()
         this.loading = false
-      },
-      // checkout 的 php 命令
-      command (module) {
-        const binFile = resolveBinFilePath('checkout.php')
-        return `php ${binFile} --branch=${this.checkout_branch} --module=${module}`
       }
     },
 

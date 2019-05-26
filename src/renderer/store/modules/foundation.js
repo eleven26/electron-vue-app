@@ -1,7 +1,7 @@
-import {isDev} from '../../utils'
+import {getUserHome, isDev} from '../../utils'
 
 const state = {
-  foundationPath: localStorage.getItem('foundation_path') || '/home/vagrant/Code/Foundation',
+  foundationPath: localStorage.getItem('foundation_path') || getUserHome() + '/Code/Foundation',
   env: localStorage.getItem('env'),
   debug: isDev()
 }
@@ -10,9 +10,7 @@ const mutations = {
   CHANGE_FOUNDATION_PATH (state, foundationPath) {
     // 修改 Foundation 路径的时候更新 localStorage，同时把路径的 \ 替换成 \\（因为 \ 会产生转义效果）
     if (foundationPath) {
-      if (foundationPath.match(/\\/g) && !foundationPath.match(/\\\\/g)) {
-        foundationPath = foundationPath.replace(/\\/g, '\\\\')
-      }
+      foundationPath = foundationPath.replace(/\\/g, '/')
     }
 
     state.foundationPath = foundationPath

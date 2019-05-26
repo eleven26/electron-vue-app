@@ -1,5 +1,6 @@
 const state = {
-  exec: require('../../utils/request').exec
+  // exec: require('../../utils/request').exec
+  exec: require('child_process').exec
 }
 
 const mutations = {
