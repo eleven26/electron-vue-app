@@ -10,8 +10,7 @@
       <p>6. 添加 Modules 里面模块、分支名称跳转 gitlab 的功能</p>
       <p>7. 内置 php, git, 不用额外安装依赖(mac 使用 mac 版本, windows 使用 windows 版本)</p>
       <p>8. vagrant 管理</p>
-      <p>9. api blame add method selector</p>
-      <p>10. 任务栏图标更改</p>
+      <p>9. 任务栏图标更改</p>
     </div>
   </el-card>
 </template>

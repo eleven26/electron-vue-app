@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const spawn = require('child_process').spawn
 let files = fs.readdirSync(path.join(__dirname, '../build'))
+let compare = require('node-version-compare')
 
 /**
  * 是否是 windows
@@ -26,9 +27,10 @@ spawnObj.on('close', (code) => {
 
   let file = files.filter(name => {
     let extension = isWin() ? 'exe' : 'dmg'
-    return name.indexOf(extension) !== -1
+    return name.endsWith(extension)
+  }).sort((name1, name2) => {
+    return compare(name2.replace('git-helper-', ''), name1.replace('git-helper-', ''))
   })
-  console.log(file)
 
   if (file.length === 0) {
     console.error('build fails')

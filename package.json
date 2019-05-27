@@ -67,6 +67,7 @@
     "element-ui": "^2.8.2",
     "fix-path": "^2.1.0",
     "mousetrap": "^1.6.3",
+    "node-version-compare": "^1.0.2",
     "ssh2": "^0.8.4",
     "telnet-client": "^1.0.1",
     "vue": "^2.5.16",
