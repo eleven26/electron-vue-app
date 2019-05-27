@@ -16,6 +16,7 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+let tray
 function createWindow () {
   /**
    * Initial window options
@@ -62,7 +63,7 @@ function createWindow () {
   }))
 
   // 状态栏图标
-  let tray = new Tray(rootPath + '/build/icons/icon.icns')
+  tray = new Tray(rootPath + '/build/icons/icon.icns')
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Item1', type: 'radio' }
   ])
