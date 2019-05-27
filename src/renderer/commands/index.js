@@ -75,7 +75,6 @@ function executeWithFoundationPath (command, callback) {
     if (path) path = path.trim()
     let postfix = `--foundation_path=${path}`
 
-    console.log(`${command} ${postfix}`)
     command = `${command} ${postfix}`
     exec(command, (error, stdout, stderr) => {
       // Log context when in debug mode.
@@ -164,7 +163,6 @@ function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
 
-    console.log(path)
     let command = commands.remote(path)
     exec(command, (error, stdout, stderr) => {
       if (isDebug()) {

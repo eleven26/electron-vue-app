@@ -3,11 +3,15 @@
         <h5 style="margin-left: 7px">查询某个接口的作者、所在控制器和方法</h5>
         <el-form>
             <el-form-item>
-                <el-input placeholder="请输入路径" v-model="url"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button :loading="loading" type="primary" @click="blame">确定</el-button>
-                <el-button @click="clear">清空</el-button>
+                <el-input placeholder="请输入路径" v-model="url">
+                    <el-select slot="prepend" v-model="requestMethod" style="width: 110px">
+                        <el-option v-for="method in methods"
+                                   :key="method"
+                                   :label="method"
+                                   :value="method"></el-option>
+                    </el-select>
+                    <el-button slot="append" icon="el-icon-search" @click="blame" :loading="loading"></el-button>
+                </el-input>
             </el-form-item>
             <el-form-item style="margin-top: 20px" v-show="showDetail" label-width="120px" label="开发者：">
                 {{ developer }}
@@ -21,7 +25,7 @@
             <el-form-item v-show="showDetail" label-width="120px" label="method：">
                 {{ method }}
             </el-form-item>
-            <el-row v-show="this.params.length > 0">
+            <el-row v-show="this.params.length > 0 && !loading">
                 <el-col style="width: 120px">
                     <el-form-item label="参数：" label-width="120px"></el-form-item>
                 </el-col>
@@ -52,9 +56,17 @@
         raw_docs: '',
         cls: '',
         method: '',
+        requestMethod: 'GET',
         loading: false,
         showDetail: false,
-        params: []
+        params: [],
+        methods: [
+          'GET',
+          'POST',
+          'PUT',
+          'PATCH',
+          'DELETE'
+        ]
       }
     },
 
@@ -82,7 +94,7 @@
         this.loading = true
         this.resolveParams()
         checkPath().then(() => {
-          executeWithFoundationPath(apiBlame(this.url), output => this.finish(output))
+          executeWithFoundationPath(apiBlame(this.url, this.requestMethod), output => this.finish(output))
         })
       },
       finish (result) {

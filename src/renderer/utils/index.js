@@ -117,7 +117,7 @@ function php () {
   } else {
     php = 'php '
   }
-  console.log(php)
+
   return php
 }
 
