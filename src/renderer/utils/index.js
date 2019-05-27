@@ -90,15 +90,18 @@ function isDev () {
  */
 function resolveBinFilePath (file) {
   const path = require('path')
+  let binPath
   if (isDev()) {
-    return path.join(rootPath, '/bin/' + file)
+    binPath = path.join(rootPath, '/bin/' + file)
+  } else {
+    if (isWin()) {
+      binPath = path.join(rootPath, `/resources/bin/` + file)
+    } else {
+      binPath = path.join(rootPath, `/Contents/Resources/bin/` + file)
+    }
   }
 
-  if (isWin()) {
-    return path.join(rootPath, `/resources/bin/` + file)
-  } else {
-    return path.join(rootPath, `/Contents/Resources/bin/` + file)
-  }
+  return fixDirSeparator(binPath)
 }
 
 /**
@@ -168,6 +171,16 @@ function isLessThanTenMinutes (key) {
   }
 }
 
+/**
+ * 路径的目录分隔符修正
+ *
+ * @param dir
+ * @returns {*}
+ */
+function fixDirSeparator (dir) {
+  return dir.replace(/\\/g, '/')
+}
+
 export {
   isWin,
   isDev,
@@ -180,5 +193,6 @@ export {
   isDebug,
   getUserHome,
   isLessThanTenMinutes,
-  php
+  php,
+  fixDirSeparator
 }

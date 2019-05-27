@@ -47,10 +47,10 @@
       pull () {
         this.loading = true
 
-        checkPath().then(() => {
+        checkPath().then(foundationPath => {
           const promises = resolveModulePaths().map(obj => {
             return new Promise(resolve => {
-              execute(commands.pull(obj.module), res => {
+              execute(commands.pull(foundationPath, obj.module), res => {
                 this.output += res
                 resolve(res)
                 setTimeout(() => {

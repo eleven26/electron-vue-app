@@ -46,10 +46,10 @@ function apiBlame (url, method) {
   return `${php} ${binFile} --url="${url}"  --method="${method}"`
 }
 
-function pull (module) {
+function pull (foundationPath, module) {
   const binFile = resolveBinFilePath('pull.php')
   let php = store.getters.php
-  return `${php} ${binFile} --module=${module}`
+  return `${php} ${binFile} --foundation_path="${foundationPath}" --module=${module}`
 }
 
 function checkout (branch, module) {
