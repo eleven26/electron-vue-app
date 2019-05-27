@@ -1,6 +1,7 @@
 'use strict'
 
-import { app, BrowserWindow, Menu, MenuItem } from 'electron'
+import { app, BrowserWindow, Menu, MenuItem, Tray } from 'electron'
+import { rootPath } from 'electron-root-path'
 
 /**
  * Set `__static` path to static files in production
@@ -59,6 +60,14 @@ function createWindow () {
     accelerator: process.platform === 'darwin' ? 'Cmd+R' : 'F5',
     click: () => mainWindow.reload()
   }))
+
+  // 状态栏图标
+  let tray = new Tray(rootPath + '/build/icons/icon.icns')
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Item1', type: 'radio' }
+  ])
+  tray.setToolTip('Git Helper.')
+  tray.setContextMenu(contextMenu)
 }
 
 app.on('ready', createWindow)
