@@ -1,7 +1,7 @@
 'use strict'
 
-import { app, BrowserWindow, Menu, MenuItem, Tray } from 'electron'
-import { rootPath } from 'electron-root-path'
+import { app, BrowserWindow, Menu, MenuItem } from 'electron'
+// import { rootPath } from 'electron-root-path'
 
 /**
  * Set `__static` path to static files in production
@@ -16,7 +16,6 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
-let tray
 function createWindow () {
   /**
    * Initial window options
@@ -48,7 +47,8 @@ function createWindow () {
           { role: 'paste' },
           { role: 'pasteandmatchstyle' },
           { role: 'delete' },
-          { role: 'selectall' }
+          { role: 'selectall' },
+          { role: 'quit' }
         ]
       }
     ]))
@@ -63,12 +63,12 @@ function createWindow () {
   }))
 
   // 状态栏图标
-  tray = new Tray(rootPath + '/build/icons/icon.icns')
-  const contextMenu = Menu.buildFromTemplate([
-    { label: 'Item1', type: 'radio' }
-  ])
-  tray.setToolTip('Git Helper.')
-  tray.setContextMenu(contextMenu)
+  // let tray = new Tray(rootPath + '/build/icons/icon.icns')
+  // const contextMenu = Menu.buildFromTemplate([
+  //   { label: 'Item1', type: 'radio' }
+  // ])
+  // tray.setToolTip('Git Helper.')
+  // tray.setContextMenu(contextMenu)
 }
 
 app.on('ready', createWindow)
