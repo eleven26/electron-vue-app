@@ -19,7 +19,7 @@ let spawnObj = spawn(`npm`, ['run', 'build'], { cwd: __dirname })
 spawnObj.stdout.on('data', (data) => {
   console.log(`${data}`)
 })
-spawnObj.stderr.on('data', (data) => {
+spawnObj.stderr.on('error', (data) => {
   console.error(`${data}`)
 })
 spawnObj.on('close', (code) => {
