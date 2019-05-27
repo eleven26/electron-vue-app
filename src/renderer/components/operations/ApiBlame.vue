@@ -87,7 +87,7 @@
       },
       finish (result) {
         try {
-          let res = result
+          let res = JSON.parse(result)
           this.developer = res.developer
           this.docs_url = res.docs_url
           this.raw_docs = res.raw_docs
