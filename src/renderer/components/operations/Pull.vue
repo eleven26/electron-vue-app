@@ -20,7 +20,7 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import { checkPath, executeWithFoundationPath } from '@/commands/index'
+  import {checkPath, execute} from '@/commands/index'
   import * as commands from '@/commands/commands'
   import {resolveModulePaths} from '@/utils'
 
@@ -47,19 +47,21 @@
       pull () {
         this.loading = true
 
-        const promises = resolveModulePaths().map(obj => {
-          return new Promise(resolve => {
-            executeWithFoundationPath(commands.pull(obj.module), res => {
-              this.output += res
-              resolve(res)
-              setTimeout(() => {
-                document.querySelector('#textarea').scrollTop = document.querySelector('#textarea').scrollHeight
-              }, 10)
+        checkPath().then(() => {
+          const promises = resolveModulePaths().map(obj => {
+            return new Promise(resolve => {
+              execute(commands.pull(obj.module), res => {
+                this.output += res
+                resolve(res)
+                setTimeout(() => {
+                  document.querySelector('#textarea').scrollTop = document.querySelector('#textarea').scrollHeight
+                }, 10)
+              })
             })
           })
-        })
 
-        Promise.all(promises).finally(() => this.finish())
+          Promise.all(promises).finally(() => this.finish())
+        })
       },
       // 拉取完毕的回调
       finish () {

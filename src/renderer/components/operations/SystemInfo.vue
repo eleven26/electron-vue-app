@@ -26,11 +26,11 @@
     name: 'SystemInfo',
 
     data () {
-      this.vagrantVersion()
+      // this.vagrantVersion()
       return {
         version: require('@/../../package.json').version,
         php_version: this.phpVersion(),
-        swoole_version: this.swooleVersion(),
+        // swoole_version: this.swooleVersion(),
         git_version: this.gitVersion(),
         vagrant_version: '',
         swoole_server_status: ''
