@@ -1,6 +1,5 @@
 import { rootPath } from 'electron-root-path'
 const store = require('../store').default
-// const path = require('path')
 
 /**
  * 是否是 windows
@@ -90,16 +89,16 @@ function isDev () {
  * @returns {string}
  */
 function resolveBinFilePath (file) {
-  // if (isDev()) {
-  //   return path.join(rootPath, '/bin/' + file)
-  // }
-  return getUserHome() + `/bin/` + file
+  const path = require('path')
+  if (isDev()) {
+    return path.join(rootPath, '/bin/' + file)
+  }
 
-  // if (isWin()) {
-  //   return path.join(rootPath, `/resources/bin/` + file)
-  // } else {
-  //   return path.join(rootPath, `/Contents/Resources/bin/` + file)
-  // }
+  if (isWin()) {
+    return path.join(rootPath, `/resources/bin/` + file)
+  } else {
+    return path.join(rootPath, `/Contents/Resources/bin/` + file)
+  }
 }
 
 /**
