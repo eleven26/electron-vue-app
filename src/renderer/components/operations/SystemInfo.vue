@@ -5,10 +5,10 @@
         <template slot="header">系统信息({{ version }})</template>
         <el-form label-width="150px">
           <el-form-item label="PHP 版本">{{ php_version }}</el-form-item>
-          <el-form-item label="swoole 版本">{{ swoole_version }}</el-form-item>
+          <!--<el-form-item label="swoole 版本">{{ swoole_version }}</el-form-item>-->
           <el-form-item label="Git 版本">{{ git_version }}</el-form-item>
-          <el-form-item label="Vagrant 版本">{{ vagrant_version }}</el-form-item>
-<!--          <el-form-item label="swoole server">{{ swoole_server_status }}</el-form-item>-->
+          <!--<el-form-item label="Vagrant 版本">{{ vagrant_version }}</el-form-item>-->
+          <!--<el-form-item label="swoole server">{{ swoole_server_status }}</el-form-item>-->
         </el-form>
       </el-card>
     </el-col>

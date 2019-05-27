@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-button :disabled="disabled" :loading="loading" @click="pull">Pull all</el-button>
+    <el-button @click="clear">clear</el-button>
     <el-row>
       <el-col>
         <div class="description">
@@ -9,8 +10,8 @@
       </el-col>
     </el-row>
 
-    <el-form v-show="false">
-      <el-form-item label="命令输出" style="margin-top: 10px">
+    <el-form>
+      <el-form-item style="margin-top: 10px">
         <el-input id="textarea" type="textarea" :rows="12" v-model="output"></el-input>
       </el-form-item>
     </el-form>
@@ -48,13 +49,17 @@
 
         const promises = resolveModulePaths().map(obj => {
           return new Promise(resolve => {
-            executeWithFoundationPath(commands.pull(obj.module), res => resolve(res))
+            executeWithFoundationPath(commands.pull(obj.module), res => {
+              this.output += res
+              resolve(res)
+              setTimeout(() => {
+                document.querySelector('#textarea').scrollTop = document.querySelector('#textarea').scrollHeight
+              }, 10)
+            })
           })
         })
 
-        Promise.all(promises, outputs => {
-          outputs.forEach(output => { this.output += output })
-        }).finally(() => this.finish())
+        Promise.all(promises).finally(() => this.finish())
       },
       // 拉取完毕的回调
       finish () {
@@ -63,6 +68,9 @@
           position: 'bottom-right'
         })
         this.loading = false
+      },
+      clear () {
+        this.output = ''
       }
     }
   }
