@@ -23,21 +23,21 @@ spawnObj.stderr.on('data', (data) => {
 })
 spawnObj.on('close', (code) => {
   console.log(`${code}`)
-})
 
-let file = files.filter(name => {
-  let extension = isWin() ? 'exe' : 'dmg'
-  return name.indexOf(extension) !== -1
-})
-console.log(file)
-
-if (file.length === 0) {
-  console.error('build fails')
-} else {
-  let fileName = file[0]
-  let fullPath = path.join(__dirname, `../build/${fileName}`)
-  // 上传到 oss
-  client.put(fileName, fullPath).then(result => {
-    console.log(result)
+  let file = files.filter(name => {
+    let extension = isWin() ? 'exe' : 'dmg'
+    return name.indexOf(extension) !== -1
   })
-}
+  console.log(file)
+
+  if (file.length === 0) {
+    console.error('build fails')
+  } else {
+    let fileName = file[0]
+    let fullPath = path.join(__dirname, `../build/${fileName}`)
+    // 上传到 oss
+    client.put(fileName, fullPath).then(result => {
+      console.log(result)
+    })
+  }
+})
