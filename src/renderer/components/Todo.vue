@@ -11,6 +11,7 @@
       <p>7. 内置 php, git, 不用额外安装依赖(mac 使用 mac 版本, windows 使用 windows 版本)</p>
       <p>8. vagrant 管理</p>
       <p>9. 任务栏图标更改</p>
+      <p>10. api blame reference, 点击复制</p>
     </div>
   </el-card>
 </template>
