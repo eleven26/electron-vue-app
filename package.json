@@ -71,6 +71,7 @@
     "ssh2": "^0.8.4",
     "telnet-client": "^1.0.1",
     "vue": "^2.5.16",
+    "vue-clipboard2": "^0.3.0",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

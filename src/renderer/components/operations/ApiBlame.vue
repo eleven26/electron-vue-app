@@ -25,6 +25,9 @@
             <el-form-item v-show="showDetail" label-width="120px" label="method：">
                 {{ method }}
             </el-form-item>
+            <el-form-item v-show="showDetail" label-width="120px" label="reference：">
+                <span class="span" @click="copy">{{ reference }}</span> (点击复制)
+            </el-form-item>
             <el-row v-show="this.params.length > 0 && !loading">
                 <el-col style="width: 120px">
                     <el-form-item label="参数：" label-width="120px"></el-form-item>
@@ -55,6 +58,7 @@
         docs_url: '',
         raw_docs: '',
         cls: '',
+        reference: '',
         method: '',
         requestMethod: 'GET',
         loading: false,
@@ -105,6 +109,7 @@
           this.raw_docs = res.raw_docs
           this.cls = res.class
           this.method = res.method
+          this.reference = res.reference
         } catch (e) {
           console.log(result)
           Notification.error({
@@ -139,6 +144,14 @@
             })
         } catch (e) {
         }
+      },
+      copy () {
+        this.$copyText(this.reference).then(e => {
+          Notification.success({
+            message: `复制成功`,
+            position: 'bottom-right'
+          })
+        })
       }
     }
   }
@@ -159,5 +172,11 @@
 }
 .el-form-item {
     margin-bottom: 10px !important;
+}
+.span {
+    color: blue;
+}
+.span:hover {
+    cursor: pointer;
 }
 </style>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import ElementUI from 'element-ui'
+import VueClipboard from 'vue-clipboard2'
 
 import App from './App'
 import router from './router'
@@ -18,6 +19,8 @@ fixPath()
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
+
+Vue.use(VueClipboard)
 
 Vue.use(ElementUI)
 
