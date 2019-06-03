@@ -163,8 +163,8 @@ function checkPath (throwErr = true) {
   return new Promise(resolve => {
     let path = foundationPath()
 
-    let command = commands.remote(path)
-    exec(command, (error, stdout, stderr) => {
+    let command = commands.remote()
+    exec(command, { cwd: path }, (error, stdout, stderr) => {
       if (isDebug()) {
         console.groupCollapsed(command)
         console.table({
@@ -201,7 +201,7 @@ function checkPath (throwErr = true) {
  */
 function currentBranch (path) {
   return new Promise(resolve => {
-    execute(commands.current(path), output => {
+    execute(commands.current(), { cwd: path }, output => {
       resolve(output.split('\n').shift().split(' ').pop())
     })
   })

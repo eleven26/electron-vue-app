@@ -11,12 +11,12 @@ function artisan () {
   return `${store.getters.php} ${artisanPath}`
 }
 
-function remote (path) {
-  return `cd ${path} && git config --get remote.origin.url`
+function remote () {
+  return `git config --get remote.origin.url`
 }
 
-function current (path) {
-  return `cd ${path} && git status -b -u no`
+function current () {
+  return `git status -b -u no`
 }
 
 function phpVersion () {
