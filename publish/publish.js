@@ -24,7 +24,8 @@ exec(`npm run build`, { cwd: __dirname }, (error, stdout, stderr) => {
     let extension = isWin() ? 'exe' : 'dmg'
     return name.endsWith(extension)
   }).sort((name1, name2) => {
-    return compare(name2.replace('git-helper-', ''), name1.replace('git-helper-', ''))
+    let prefix = isWin() ? 'git-helper Setup ' : 'git-helper-'
+    return compare(name2.replace(prefix, ''), name1.replace(prefix, ''))
   })
 
   if (file.length === 0) {
