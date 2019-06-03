@@ -1,7 +1,7 @@
 const client = require('./oss')
 const fs = require('fs')
 const path = require('path')
-const spawn = require('child_process').spawn
+const exec = require('child_process').exec
 let files = fs.readdirSync(path.join(__dirname, '../build'))
 let compare = require('node-version-compare')
 
@@ -15,15 +15,10 @@ function isWin () {
 }
 
 // build
-let spawnObj = spawn(`npm`, ['run', 'build'], { cwd: __dirname })
-spawnObj.stdout.on('data', (data) => {
-  console.log(`${data}`)
-})
-spawnObj.stderr.on('error', (data) => {
-  console.error(`${data}`)
-})
-spawnObj.on('close', (code) => {
-  console.log(`${code}`)
+exec(`npm run build`, { cwd: __dirname }, (error, stdout, stderr) => {
+  console.error(error)
+  console.log(stdout)
+  console.error(stderr)
 
   let file = files.filter(name => {
     let extension = isWin() ? 'exe' : 'dmg'
