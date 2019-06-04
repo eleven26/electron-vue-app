@@ -1,25 +1,15 @@
 <template>
     <div>
         <h5 style="margin-left: 7px">查询某个接口的作者、所在控制器和方法</h5>
-        <el-form label-width="80px">
-            <el-form-item label="Method">
-                <el-select v-model="requestMethod">
-                    <el-option v-for="method in methods"
-                               :key="method"
-                               :label="method"
-                               :value="method"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="版本">
-                <el-select v-model="version">
-                    <el-option v-for="version in versions"
-                               :key="version"
-                               :label="version"
-                               :value="version"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="API 地址">
+        <el-form>
+            <el-form-item>
                 <el-input placeholder="请输入路径" v-model="url">
+                    <el-select slot="prepend" v-model="requestMethod" style="width: 110px">
+                        <el-option v-for="method in methods"
+                                   :key="method"
+                                   :label="method"
+                                   :value="method"></el-option>
+                    </el-select>
                     <el-button slot="append" icon="el-icon-search" @click="blame" :loading="loading"></el-button>
                 </el-input>
             </el-form-item>
