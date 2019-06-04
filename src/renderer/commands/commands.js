@@ -39,11 +39,11 @@ function vagrantVersion () {
   return `vagrant version`
 }
 
-function apiBlame (url, method) {
+function apiBlame (url, method, version) {
   const binFile = resolveBinFilePath('api_blame.php')
   let php = store.getters.php
 
-  return `${php} ${binFile} --url="${url}"  --method="${method}"`
+  return `${php} ${binFile} --url="${url}"  --method="${method}" --version="${version}"`
 }
 
 function pull (foundationPath, module) {

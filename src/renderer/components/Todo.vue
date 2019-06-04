@@ -13,7 +13,8 @@
       <p>9. 任务栏图标更改</p>
       <p>10. api blame 添加版本筛选</p>
       <p>11. bugfix: windows exec 不能执行命令</p>
-      <p>12. windows 内置 php 的扩展路径修改</p>
+      <p><del>12. windows 内置 php 的扩展路径修改</del></p>
+      <p>13. windows 内置 php 加上 mongodb 扩展</p>
     </div>
   </el-card>
 </template>
